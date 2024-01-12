@@ -37,7 +37,7 @@ header {
 
 #sidebar {
     background-color: rgb(138, 138, 138);
-    width: 110px;
+    width: 140px;
     padding: 10px;
     & .list-btn {
         border: 0;
@@ -46,10 +46,14 @@ header {
         width: 95%;
         text-align: left;
         padding: 6px;
+        font-size: 1.3rem;
     }
     & button:hover {
         background-color: gray;
         cursor: pointer;
+    }
+    & h2 {
+        margin-top: 8px;
     }
 }
 
@@ -89,6 +93,7 @@ main {
         text-align: center;
         left: 50%;
         padding: 6px;
+        font-size: 1.3rem;
     }
     & #add-task-btn:hover {
         background-color: gray;
