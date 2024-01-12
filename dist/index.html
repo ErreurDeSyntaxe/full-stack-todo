@@ -7,7 +7,52 @@
     <link rel="stylesheet" href="../src/style.css">
 </head>
 <body>
-    <h1>To-Do</h1>
+    <header>
+        <img src="" alt=""><h1>To Do</h1>
+    </header>
+    <div id="sidebar">
+        <div id="categories">
+            <div id="inbox">
+                <img src="" alt=""><h3>Inbox</h3>
+            </div>
+            <div id="today">
+                <img src="" alt=""><h3>Today</h3>
+            </div>
+            <div id="this-week">
+                <img src="" alt=""><h3>This Week</h3>
+            </div>
+            <div id="history">
+                <img src="" alt=""><h3>History</h3>
+            </div>
+        </div>
+        <div id="projects">
+            <div><img src="" alt=""><h3>Projects</h3></div>
+            <div id="add-project">
+                <button id="add-project-btn">+ Add</button>
+            </div>
+        </div>
+    </div>
+    <main>
+        <div id="main-top">
+            <div id="project-name"><h2>Inbox</h2></div>
+            <div><button id="clear-btn">Clear Completed</button></div>
+        </div>
+        <div id="project-content">
+            <div class="task">
+                <input class="task-checkbox" type="checkbox">
+                <span class="task-title">Buy Gifts</span>
+                <span class="task-duedate">Today</span>
+                <button class="task-del">X</button>
+            </div>
+        </div>
+        <div id="add-task">
+            <button id="add-task-btn">+ Add Task</button>
+        </div>
+    </main>
+    <footer>This to-do app was created by 
+        <a href="https://github.com/erreurDeSyntaxe/" target="_blank">ErreurDeSyntaxe</a> 
+        in the context of <a href="https://www.theodinproject.com/" target="_blank">The Odin Project.</a>
+    </footer>
     <!-- <script src="main.js"></script> -->
 </body>
 </html>
