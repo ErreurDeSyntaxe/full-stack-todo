@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 * {
     box-sizing: border-box;
@@ -13,5 +13,124 @@
 }
 
 html {
-    font-family: "Roboto", monospace;
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: rgb(61, 61, 61);
+    color: white;
+    font-size: 4rem;
+    font-weight: bold;
+    padding: 10px 0 0 20px;
+}
+
+#page-content {
+    flex: 1;
+    display: flex;
+}
+
+#sidebar {
+    background-color: rgb(138, 138, 138);
+    width: 110px;
+    padding: 10px;
+    & .list-btn {
+        border: 0;
+        background-color: transparent;
+        height: 35px;
+        width: 95%;
+        text-align: left;
+        padding: 6px;
+    }
+    & button:hover {
+        background-color: gray;
+        cursor: pointer;
+    }
+}
+
+main {
+    background-color: rgb(197, 197, 197);;
+    flex: 1;
+    padding: 20px;
+    & #main-top {
+        padding: 5px;
+        display: flex;
+        & #project-name {
+            flex: 1;
+        }
+        & button {
+            font-size: 1.3rem;
+            border: 0;
+            border-radius: 5px;
+            background-color: red;
+            text-align: left;
+            padding: 6px;
+        }
+        & button:hover {
+            background-color: rgb(255, 115, 115);
+            cursor: pointer;
+        }
+    }
+    & #add-task {
+        display: flex;
+        justify-content: center;
+    }
+    & #add-task-btn {
+        border: 0;
+        border-radius: 6px;
+        background-color: transparent;
+        height: 35px;
+        width: 100px;
+        text-align: center;
+        left: 50%;
+        padding: 6px;
+    }
+    & #add-task-btn:hover {
+        background-color: gray;
+        cursor: pointer;
+    }
+    & .task-card {
+        background-color: rgb(143, 143, 143);
+        border-radius: 8px;
+        padding: 12px;
+        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        & .task-title {
+            /* margin: 0 30px 0 10px */
+            text-transform: uppercase;
+        }
+        & .card-left {
+            padding-top: 4px;
+        }
+        & .completed {
+            text-decoration: line-through;
+        }
+        & button {
+            border: 0;
+            border-radius: 5px;
+            background-color: red;
+            text-align: left;
+            padding: 6px;
+        }
+        & button:hover {
+            background-color: rgb(255, 115, 115);
+            cursor: pointer;
+        }
+    }
+}
+
+footer {
+    background-color: rgb(61, 61, 61);
+    color: white;
+    text-align: center;
+    font-weight: 400;
+    & a {
+        color: goldenrod;
+    }
 }
