@@ -130,14 +130,17 @@ const buildMain = () => {
 
     addTaskBtn.textContent = "+ Task";
 
+    addTaskBtn.addEventListener("click", () => {
+        console.log("+ task");
+        // currentProjectDiv.appendChild(createTaskCard())
+    });
+
     addTaskDiv.appendChild(addTaskBtn);
     main.appendChild(addTaskDiv);
 };
 
-const buildPage = () => {
+const buildPage = (() => {
     buildHeader();
     buildSidebar();
     buildMain();
-};
-
-buildPage();
+})();
