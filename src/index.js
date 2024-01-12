@@ -1,4 +1,4 @@
-
+import _ from 'lodash';
 
 const buildHeader = () => {
     const body = document.querySelector("body");
@@ -131,7 +131,7 @@ const buildMain = () => {
     addTaskBtn.textContent = "+ Task";
 
     addTaskBtn.addEventListener("click", () => {
-        console.log("+ task");
+        console.log("+ Task");
         // currentProjectDiv.appendChild(createTaskCard())
     });
 
