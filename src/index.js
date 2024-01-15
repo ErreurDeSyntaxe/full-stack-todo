@@ -69,7 +69,54 @@ const activateProjectButtons = (() => {
 
 const activateTaskButtons = (() => {
     const addTaskBtn = document.querySelector("#add-task-btn")
-    
+    const cancelBtn = document.querySelector("#cancel-task-btn")
+    const confirmBtn = document.querySelector("#confirm-task-btn")
+    const taskInputDiv = document.querySelector("#task-input-div")
+    const taskInput = document.querySelector("#task-input")
+
+    addTaskBtn.addEventListener("click", () => {
+        addTaskBtn.setAttribute("hidden", true)
+        taskInputDiv.removeAttribute("hidden")
+        taskInput.focus()
+
+        cancelBtn.addEventListener("click", () => {
+            taskInput.textContent = ""
+            addTaskBtn.removeAttribute("hidden")
+            taskInputDiv.setAttribute("hidden", true)
+            return
+        })
+
+        confirmBtn.addEventListener("click", (e) => {
+            e.preventDefault()
+            if (taskInput.value === "") {
+                taskInput.focus()
+                return
+            }
+
+            const taskName = taskInput.value
+            taskInput.value = ""
+            addTaskBtn.removeAttribute("hidden")
+            taskInputDiv.setAttribute("hidden", true)
+
+            // // check if the name is available or taken
+            // if (app.addProject(taskName)) {
+            //     createProjectCard(taskName)
+            //     let sidebarName = "#" + taskName
+            //     let sidebarDel = "#" + taskName + "-del"
+            //     const cardNameBtn = document.querySelector(sidebarName)
+            //     const cardDeleteBtn = document.querySelector(sidebarDel)
+
+            //     cardNameBtn.addEventListener("click", () => {
+            //         let currentProject = app.selectProject(taskName)
+            //     })
+
+            //     cardDeleteBtn.addEventListener("click", () => {
+            //         app.deleteProject(taskName)
+            //         cardDeleteBtn.parentElement.remove()
+            //     })
+            // }
+        })
+    })
 })()
 
 let app = todoApp()

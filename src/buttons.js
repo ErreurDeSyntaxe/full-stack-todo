@@ -12,6 +12,7 @@ const buildProjectInput = () => {
     confirmBtn.setAttribute("type", "submit")
     cancelBtn.classList.add("cancel-btn")
     cancelBtn.setAttribute("id", "cancel-project-btn")
+    cancelBtn.setAttribute("type", "button")
     projectInput.setAttribute("id", "project-input")
     projectInput.setAttribute("type", "text")
     projectInput.required = true
@@ -28,30 +29,32 @@ const buildProjectInput = () => {
 
 const buildTaskInput = () => {
     const addTaskDiv = document.querySelector("#add-task")
-    const taskInputDiv = document.createElement("div")
+    const newTaskDiv = document.createElement("div")
+    const upperDiv = document.createElement("div")
+    const lowerDiv = document.createElement("div")
+    const input = document.createElement("input")
     const confirmBtn = document.createElement("button")
     const cancelBtn = document.createElement("button")
-    const taskInput = document.createElement("input")
 
-    taskInputDiv.setAttribute("id", "task-input-div")
-    taskInputDiv.setAttribute("hidden", true)
+    newTaskDiv.setAttribute("id", "task-input-div")
+    newTaskDiv.setAttribute("hidden", true)
     confirmBtn.classList.add("confirm-btn")
     confirmBtn.setAttribute("id", "confirm-task-btn")
     confirmBtn.setAttribute("type", "submit")
     cancelBtn.classList.add("cancel-btn")
     cancelBtn.setAttribute("id", "cancel-task-btn")
-    taskInput.setAttribute("id", "task-input")
-    taskInput.setAttribute("type", "text")
-    taskInput.required = true
-
+    cancelBtn.setAttribute("type", "button")
+    input.setAttribute("id", "task-input")
+    input.setAttribute("placeholder", "Task Name")
     confirmBtn.textContent = "Add"
     cancelBtn.textContent = "Cancel"
-    taskInput.setAttribute("placeholder", "Task Name")
 
-    taskInputDiv.appendChild(taskInput)
-    addTaskDiv.appendChild(taskInputDiv)
-    addTaskDiv.appendChild(confirmBtn)
-    addTaskDiv.appendChild(cancelBtn)
+    upperDiv.appendChild(input)
+    lowerDiv.append(confirmBtn)
+    lowerDiv.append(cancelBtn)
+    newTaskDiv.appendChild(upperDiv)
+    newTaskDiv.appendChild(lowerDiv)
+    addTaskDiv.appendChild(newTaskDiv)
 }
 
 export { buildTaskInput, buildProjectInput }
