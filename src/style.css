@@ -23,7 +23,7 @@ body {
 }
 
 header {
-    background-color: rgb(61, 61, 61);
+    background-color: rgb(42, 73, 32);
     color: white;
     font-size: 4rem;
     font-weight: bold;
@@ -36,7 +36,7 @@ header {
 }
 
 #sidebar {
-    background-color: rgb(138, 138, 138);
+    background-color: rgb(105, 153, 101);
     width: 140px;
     padding: 10px;
     & .list-btn {
@@ -49,7 +49,7 @@ header {
         font-size: 1.3rem;
     }
     & button:hover {
-        background-color: gray;
+        background-color: rgb(23, 117, 19);
         cursor: pointer;
     }
     & h2 {
@@ -58,7 +58,7 @@ header {
 }
 
 main {
-    background-color: rgb(197, 197, 197);;
+    background-color: rgb(200, 253, 200);;
     flex: 1;
     padding: 20px;
     & #main-top {
@@ -96,11 +96,11 @@ main {
         font-size: 1.3rem;
     }
     & #add-task-btn:hover {
-        background-color: gray;
+        background-color: rgb(159, 255, 147);
         cursor: pointer;
     }
     & .task-card {
-        background-color: rgb(143, 143, 143);
+        background-color: rgb(25, 156, 8);
         border-radius: 8px;
         padding: 12px;
         margin: 10px 0;
@@ -131,7 +131,7 @@ main {
 }
 
 footer {
-    background-color: rgb(61, 61, 61);
+    background-color: rgb(42, 73, 32);
     color: white;
     text-align: center;
     font-weight: 400;
