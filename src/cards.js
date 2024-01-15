@@ -1,3 +1,5 @@
+import { todoApp } from "./logic"
+
 const createTaskCard = () => {
     const taskCard = document.createElement("div")
     const cardLeft = document.createElement("div")
@@ -34,6 +36,11 @@ const createProjectCard = (newProject) => {
     const cardName = document.createElement("button")
     const cardDelete = document.createElement("button")
     const reference = document.querySelector("#add-project-btn")
+
+    projectCard.setAttribute("display", "flex")
+    cardName.setAttribute("flex", "1")
+    cardName.setAttribute("id", newProject)
+    cardDelete.setAttribute("id", newProject + "-del")
 
     cardName.textContent = newProject
     cardDelete.textContent = "✖"

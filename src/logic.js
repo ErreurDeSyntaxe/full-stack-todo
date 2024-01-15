@@ -2,12 +2,18 @@ function todoApp() {
     const projectList = []
 
     const addProject = (title) => {
+        for (let i = 0; i < projectList.length; i++) {
+            if (projectList[i].getName() == title) {
+                return false
+            }
+        }
         projectList.push(Project(title))
+        return true
     }
 
     const deleteProject = (string) => {
         for (let i = 0; i < projectList.length; i++) {
-            if (projectList[0].getName() == string && string != "Inbox") {
+            if (projectList[i].getName() == string && string != "Inbox") {
                 projectList.splice(i, 1)
                 break
             }

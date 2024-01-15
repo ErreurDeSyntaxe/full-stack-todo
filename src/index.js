@@ -43,8 +43,22 @@ const activateProjectButtons = (() => {
             projectInput.value = ""
             addProjectBtn.removeAttribute("hidden")
             projectInputDiv.setAttribute("hidden", true)
-            app.addProject(projectTitle)
-            createProjectCard(projectTitle)
+            if (app.addProject(projectTitle)) {
+                createProjectCard(projectTitle)
+                let sidebarName = "#" + projectTitle
+                let sidebarDel = "#" + projectTitle + "-del"
+                const cardNameBtn = document.querySelector(sidebarName)
+                const cardDeleteBtn = document.querySelector(sidebarDel)
+
+                cardNameBtn.addEventListener("click", () => {
+                    let currentProject = app.selectProject(projectTitle)
+                })
+
+                cardDeleteBtn.addEventListener("click", () => {
+                    app.deleteProject(projectTitle)
+                    cardDeleteBtn.parentElement.remove()
+                })
+            }
         })
     })
 })()
