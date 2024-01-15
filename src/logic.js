@@ -1,15 +1,66 @@
-function createProject(name) {
-    return { name }
-}
+function todoApp() {
+    const projectList = []
 
-function createTask(title) {
-    return {
-        title,
-        dueDate: new Date(),
+    const addProject = (title) => {
+        projectList.push(Project(title))
     }
+
+    const deleteProject = (string) => {
+        for (let i = 0; i < projectList.length; i++) {
+            if (projectList[0].getName() == string) {
+                projectList.splice(i, 1)
+                break
+            }
+        }
+    }
+
+    const getProjects = () => projectList
+
+    return { addProject, deleteProject, getProjects }
 }
 
-function createTaskCard(title) {
-    //set the default value of a date input to today using this line
-    //dateInput.valueAsDate = new Date()
+function Project(string) {
+    const taskList = []
+    let title = string
+    
+    const addTask = (string) => {
+        taskList.push(Task(string))
+    }
+
+    const deleteTask = (string) => {
+        for (let i = 0; i < taskList.length; i++) {
+            if (taskList[i].getName() == string) {
+                taskList.splice(i, 1)
+                break
+            }
+        }
+    }
+
+    const getName = () => title
+
+    const getTasks = () => taskList
+
+    return { addTask, deleteTask, getTasks, getName }
 }
+
+function Task(string) {
+    let name = string
+    let date = new Date()
+    let status = "incomplete"
+
+    const getName = () => name
+
+    const setName = (newName) => name = newName
+
+    const getDate = () => date
+
+    const setDate = (newDate) => date = newDate
+
+    const getStatus = () => status
+
+    const setStatus = (newStatus) => status = newStatus
+
+    return { getName, setName, getDate, setDate, getStatus, setStatus }
+}
+
+export { todoApp }
