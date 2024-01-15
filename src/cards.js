@@ -1,6 +1,6 @@
 import { todoApp } from "./logic"
 
-const createTaskCard = () => {
+const createTaskCard = (newTask) => {
     const taskCard = document.createElement("div")
     const cardLeft = document.createElement("div")
     const cardRight = document.createElement("div")
@@ -18,6 +18,8 @@ const createTaskCard = () => {
     taskDate.setAttribute("type", "date")
     taskDate.setAttribute("value", new Date())
     deleteBtn.classList.add("task-del")
+
+    taskCard.textContent = newTask
     deleteBtn.textContent = "✖"
 
     cardRight.appendChild(taskDate)
@@ -49,4 +51,4 @@ const createProjectCard = (newProject) => {
     projectDiv.insertBefore(projectCard, reference.parentElement)
 }
 
-export { createProjectCard }
+export { createProjectCard, createTaskCard }

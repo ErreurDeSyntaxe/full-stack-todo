@@ -3,14 +3,16 @@ import { todoApp } from './logic'
 import { buildHeader } from './page'
 import { buildSidebar } from './page'
 import { buildMain } from './page'
-import { buildProjectInput } from './buttons'
+import { buildProjectInput, buildTaskInput } from './buttons'
 import { createProjectCard } from './cards'
+import { createTaskCard } from './cards'
 
 const buildPage = (() => {
     buildHeader()
     buildSidebar()
     buildMain()
     buildProjectInput()
+    buildTaskInput()
 })()
 
 const activateProjectButtons = (() => {
@@ -43,6 +45,8 @@ const activateProjectButtons = (() => {
             projectInput.value = ""
             addProjectBtn.removeAttribute("hidden")
             projectInputDiv.setAttribute("hidden", true)
+
+            // check if the name is available or taken
             if (app.addProject(projectTitle)) {
                 createProjectCard(projectTitle)
                 let sidebarName = "#" + projectTitle
@@ -64,7 +68,8 @@ const activateProjectButtons = (() => {
 })()
 
 const activateTaskButtons = (() => {
-    console.log("Write me! I'm in index.js")
+    const addTaskBtn = document.querySelector("#add-task-btn")
+    
 })()
 
 let app = todoApp()

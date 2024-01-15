@@ -27,7 +27,31 @@ const buildProjectInput = () => {
 }
 
 const buildTaskInput = () => {
-    console.log("Write me! I'm in buttons.js")
+    const projectContentDiv = document.querySelector("#project-content")
+    const taskInputDiv = document.createElement("div")
+    const confirmBtn = document.createElement("button")
+    const cancelBtn = document.createElement("button")
+    const taskInput = document.createElement("input")
+
+    taskInputDiv.setAttribute("id", "task-input-div")
+    taskInputDiv.setAttribute("hidden", true)
+    confirmBtn.classList.add("confirm-btn")
+    confirmBtn.setAttribute("id", "confirm-task-btn")
+    confirmBtn.setAttribute("type", "submit")
+    cancelBtn.classList.add("cancel-btn")
+    cancelBtn.setAttribute("id", "cancel-task-btn")
+    taskInput.setAttribute("id", "task-input")
+    taskInput.setAttribute("type", "text")
+    taskInput.required = true
+
+    confirmBtn.textContent = "Add"
+    cancelBtn.textContent = "Cancel"
+    projectInput.setAttribute("placeholder", "Task Name")
+
+    taskInput.appendChild(taskInput)
+    taskInput.appendChild(confirmBtn)
+    taskInput.appendChild(cancelBtn)
+    projectContentDiv.appendChild(taskInput)
 }
 
 export { buildTaskInput, buildProjectInput }
