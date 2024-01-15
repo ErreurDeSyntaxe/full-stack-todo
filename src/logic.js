@@ -7,7 +7,7 @@ function todoApp() {
 
     const deleteProject = (string) => {
         for (let i = 0; i < projectList.length; i++) {
-            if (projectList[0].getName() == string) {
+            if (projectList[0].getName() == string && string != "Inbox") {
                 projectList.splice(i, 1)
                 break
             }
@@ -16,7 +16,15 @@ function todoApp() {
 
     const getProjects = () => projectList
 
-    return { addProject, deleteProject, getProjects }
+    const selectProject = (string) => {
+        for (let i = 0; i < projectList.length; i++) {
+            if (projectList[i].getName() == string) {
+                return projectList[i]
+            }
+        }
+    }
+
+    return { addProject, deleteProject, getProjects, selectProject }
 }
 
 function Project(string) {
