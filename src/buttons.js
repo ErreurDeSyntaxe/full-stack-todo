@@ -27,7 +27,7 @@ const buildProjectInput = () => {
 }
 
 const buildTaskInput = () => {
-    const projectContentDiv = document.querySelector("#project-content")
+    const addTaskDiv = document.querySelector("#add-task")
     const taskInputDiv = document.createElement("div")
     const confirmBtn = document.createElement("button")
     const cancelBtn = document.createElement("button")
@@ -48,10 +48,10 @@ const buildTaskInput = () => {
     cancelBtn.textContent = "Cancel"
     taskInput.setAttribute("placeholder", "Task Name")
 
-    taskInput.appendChild(taskInput)
-    taskInput.appendChild(confirmBtn)
-    taskInput.appendChild(cancelBtn)
-    projectContentDiv.appendChild(taskInput)
+    taskInputDiv.appendChild(taskInput)
+    addTaskDiv.appendChild(taskInputDiv)
+    addTaskDiv.appendChild(confirmBtn)
+    addTaskDiv.appendChild(cancelBtn)
 }
 
 export { buildTaskInput, buildProjectInput }
