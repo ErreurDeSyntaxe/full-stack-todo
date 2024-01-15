@@ -124,11 +124,6 @@ const buildMain = () => {
 
     addTaskBtn.textContent = "+ Task";
 
-    addTaskBtn.addEventListener("click", () => {
-        console.log("+ Task");
-        // currentProjectDiv.appendChild(createTaskCard())
-    });
-
     addTaskDiv.appendChild(addTaskBtn);
     main.appendChild(addTaskDiv);
 };
