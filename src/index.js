@@ -4,6 +4,7 @@ import { buildHeader } from './page'
 import { buildSidebar } from './page'
 import { buildMain } from './page'
 import { buildProjectInput } from './buttons'
+import { createProjectCard } from './cards'
 
 const buildPage = (() => {
     buildHeader()
@@ -43,8 +44,7 @@ const activateProjectButtons = (() => {
             addProjectBtn.removeAttribute("hidden")
             projectInputDiv.setAttribute("hidden", true)
             app.addProject(projectTitle)
-            // call a create project card so that the sidebar shows the newly created project
-            return projectTitle
+            createProjectCard(projectTitle)
         })
     })
 })()
@@ -54,3 +54,4 @@ const activateTaskButtons = (() => {
 })()
 
 let app = todoApp()
+app.addProject("Inbox")
