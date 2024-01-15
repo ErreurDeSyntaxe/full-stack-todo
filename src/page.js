@@ -76,10 +76,6 @@ const buildSidebar = () => {
     titleHeader.textContent = "Projects";
     addProjectBtn.textContent = "+ Project";
 
-    addProjectBtn.addEventListener("click", () => {
-        console.log("+ Project");
-    });
-
     titleDiv.appendChild(titleHeader);
     projectDiv.appendChild(titleDiv);
     addProjectDiv.appendChild(addProjectBtn);
