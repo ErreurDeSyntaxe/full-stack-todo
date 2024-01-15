@@ -46,7 +46,7 @@ const buildTaskInput = () => {
 
     confirmBtn.textContent = "Add"
     cancelBtn.textContent = "Cancel"
-    projectInput.setAttribute("placeholder", "Task Name")
+    taskInput.setAttribute("placeholder", "Task Name")
 
     taskInput.appendChild(taskInput)
     taskInput.appendChild(confirmBtn)
