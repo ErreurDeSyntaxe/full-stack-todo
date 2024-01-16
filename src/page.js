@@ -92,12 +92,14 @@ const buildMain = () => {
     const pageDiv = document.querySelector("#page-content");
     const main = document.createElement("main");
     const mainTopDiv = document.createElement("div");
+    const mainBotDiv = document.createElement("div"); // the tasks display here
     const currentProjectDiv = document.createElement("div");
     const currentProjectTitle = document.createElement("h1");
     const buttonDiv = document.createElement("div");
     const clearBtn = document.createElement("button");
 
     mainTopDiv.setAttribute("id", "main-top");
+    mainBotDiv.setAttribute("id", "display-tasks-div");
     currentProjectDiv.setAttribute("id", "project-name");
     clearBtn.setAttribute("id", "clear-btn");
 
@@ -113,6 +115,7 @@ const buildMain = () => {
     mainTopDiv.appendChild(currentProjectDiv);
     mainTopDiv.appendChild(buttonDiv);
     main.appendChild(mainTopDiv);
+    main.appendChild(mainBotDiv);
     pageDiv.appendChild(main);
 
     // ADD TASK BUTTON

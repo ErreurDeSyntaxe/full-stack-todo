@@ -1,5 +1,6 @@
 function todoApp() {
     const projectList = []
+    let currentProject = 0;
 
     const addProject = (title) => {
         for (let i = 0; i < projectList.length; i++) {
@@ -8,6 +9,7 @@ function todoApp() {
             }
         }
         projectList.push(Project(title))
+        currentProject = projectList.length - 1
         return true
     }
 
@@ -15,6 +17,7 @@ function todoApp() {
         for (let i = 0; i < projectList.length; i++) {
             if (projectList[i].getName() == string && string != "Inbox") {
                 projectList.splice(i, 1)
+                selectProject("Inbox")
                 break
             }
         }
@@ -25,12 +28,21 @@ function todoApp() {
     const selectProject = (string) => {
         for (let i = 0; i < projectList.length; i++) {
             if (projectList[i].getName() == string) {
+                currentProject = i
                 return projectList[i]
             }
         }
     }
 
-    return { addProject, deleteProject, getProjects, selectProject }
+    const getCurrentProject = () => currentProject
+
+    return {
+        addProject,
+        deleteProject,
+        getProjects,
+        selectProject,
+        getCurrentProject
+    }
 }
 
 function Project(string) {
@@ -38,7 +50,13 @@ function Project(string) {
     let title = string
     
     const addTask = (string) => {
+        for (let i = 0; i < taskList.length; i++) {
+            if (taskList[i].getName() == string) {
+                return false
+            }
+        }
         taskList.push(Task(string))
+        return true
     }
 
     const deleteTask = (string) => {

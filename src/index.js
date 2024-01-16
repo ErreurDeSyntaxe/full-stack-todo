@@ -22,32 +22,32 @@ const activateProjectButtons = (() => {
     const projectInputDiv = document.querySelector("#project-input-div")
     const projectInput = document.querySelector("#project-input")
 
-    addProjectBtn.addEventListener("click", () => {
+    // addProjectBtn.addEventListener("click", () => {
+    addProjectBtn.onclick = () => {
         addProjectBtn.setAttribute("hidden", true)
         projectInputDiv.removeAttribute("hidden")
         projectInput.focus()
 
-        cancelBtn.addEventListener("click", () => {
+        cancelBtn.onclick = () => {
             projectInput.textContent = ""
             addProjectBtn.removeAttribute("hidden")
             projectInputDiv.setAttribute("hidden", true)
             return
-        })
+        }
     
-        confirmBtn.addEventListener("click", (e) => {
+        confirmBtn.onclick = (e) => {
             e.preventDefault()
             if (projectInput.value === "") {
                 projectInput.focus()
                 return
             }
 
-            const projectTitle = projectInput.value
-            projectInput.value = ""
-            addProjectBtn.removeAttribute("hidden")
-            projectInputDiv.setAttribute("hidden", true)
-
             // check if the name is available or taken
-            if (app.addProject(projectTitle)) {
+            if (app.addProject(projectInput.value)) {
+                const projectTitle = projectInput.value
+                projectInput.value = ""
+                addProjectBtn.removeAttribute("hidden")
+                projectInputDiv.setAttribute("hidden", true)
                 createProjectCard(projectTitle)
                 let sidebarName = "#" + projectTitle
                 let sidebarDel = "#" + projectTitle + "-del"
@@ -63,8 +63,8 @@ const activateProjectButtons = (() => {
                     cardDeleteBtn.parentElement.remove()
                 })
             }
-        })
-    })
+        }
+    }
 })()
 
 const activateTaskButtons = (() => {
@@ -74,49 +74,43 @@ const activateTaskButtons = (() => {
     const taskInputDiv = document.querySelector("#task-input-div")
     const taskInput = document.querySelector("#task-input")
 
-    addTaskBtn.addEventListener("click", () => {
+    addTaskBtn.onclick = () => {
         addTaskBtn.setAttribute("hidden", true)
         taskInputDiv.removeAttribute("hidden")
         taskInput.focus()
 
-        cancelBtn.addEventListener("click", () => {
-            taskInput.textContent = ""
+        cancelBtn.onclick = () => {
+            taskInput.value = ""
             addTaskBtn.removeAttribute("hidden")
             taskInputDiv.setAttribute("hidden", true)
             return
-        })
+        }
 
-        confirmBtn.addEventListener("click", (e) => {
+        confirmBtn.onclick = (e) => {
             e.preventDefault()
             if (taskInput.value === "") {
                 taskInput.focus()
                 return
             }
+            
+            // checks if another task in the current project has the same name
+            if (app.getProjects()[app.getCurrentProject()].addTask(taskInput.value)) {
+                const taskName = taskInput.value
+                createTaskCard(taskName)
+                taskInput.value = ""
+                addTaskBtn.removeAttribute("hidden")
+                taskInputDiv.setAttribute("hidden", true)
+                let taskCardName = "#" + taskName
+                let delBtnName = "#" + taskName + "-del"
+                const taskDeleteBtn = document.querySelector(delBtnName)
 
-            const taskName = taskInput.value
-            taskInput.value = ""
-            addTaskBtn.removeAttribute("hidden")
-            taskInputDiv.setAttribute("hidden", true)
-
-            // // check if the name is available or taken
-            // if (app.addProject(taskName)) {
-            //     createProjectCard(taskName)
-            //     let sidebarName = "#" + taskName
-            //     let sidebarDel = "#" + taskName + "-del"
-            //     const cardNameBtn = document.querySelector(sidebarName)
-            //     const cardDeleteBtn = document.querySelector(sidebarDel)
-
-            //     cardNameBtn.addEventListener("click", () => {
-            //         let currentProject = app.selectProject(taskName)
-            //     })
-
-            //     cardDeleteBtn.addEventListener("click", () => {
-            //         app.deleteProject(taskName)
-            //         cardDeleteBtn.parentElement.remove()
-            //     })
-            // }
-        })
-    })
+                taskDeleteBtn.addEventListener("click", () => {
+                    app.getProjects()[app.getCurrentProject()].deleteTask(taskName)
+                    taskDeleteBtn.parentElement.remove()
+                })
+            }
+        }
+    }
 })()
 
 let app = todoApp()

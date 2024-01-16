@@ -1,6 +1,7 @@
 import { todoApp } from "./logic"
 
 const createTaskCard = (newTask) => {
+    const taskList = document.querySelector("#display-tasks-div")
     const taskCard = document.createElement("div")
     const cardLeft = document.createElement("div")
     const cardRight = document.createElement("div")
@@ -10,14 +11,21 @@ const createTaskCard = (newTask) => {
     const deleteBtn = document.createElement("button")
 
     taskCard.classList.add("task-card")
+    const idName = "#" + newTask
+    taskCard.setAttribute("id", idName)
     cardLeft.classList.add("card-left")
     cardRight.classList.add("card-right")
     checkbox.setAttribute("type", "checkbox")
     checkbox.setAttribute("value", "completed")
     taskTitle.classList.add("task-title")
     taskDate.setAttribute("type", "date")
-    taskDate.setAttribute("value", new Date())
+    // for simplicity, when creating a task, no date input is provided
+    // so the date is set to today by default. it can be changed later
+    const today = new Date()
+    taskDate.valueAsDate = today
+    taskDate.setAttribute("min", today)
     deleteBtn.classList.add("task-del")
+    deleteBtn.setAttribute("id", newTask + "-del")
 
     taskCard.textContent = newTask
     deleteBtn.textContent = "✖"
@@ -29,7 +37,7 @@ const createTaskCard = (newTask) => {
     taskCard.appendChild(cardLeft)
     taskCard.appendChild(cardRight)
 
-    return taskCard
+    taskList.appendChild(taskCard)
 }
 
 const createProjectCard = (newProject) => {
