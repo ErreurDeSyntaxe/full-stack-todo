@@ -1,62 +1,58 @@
 import { todoApp } from "./logic"
 
 const createTaskCard = (newTask) => {
-    const taskList = document.querySelector("#display-tasks-div")
+    const body = document.querySelector("body")
     const taskCard = document.createElement("div")
-    const cardLeft = document.createElement("div")
-    const cardRight = document.createElement("div")
-    const checkbox = document.createElement("input")
-    const taskTitle = document.createElement("span")
-    const taskDate = document.createElement("input")
-    const deleteBtn = document.createElement("button")
+    const taskCardLeft = document.createElement("div")
+    const taskCardRight = document.createElement("div")
+    const taskCheckboxDiv = document.createElement("div")
+    const taskCheckboxInput = document.createElement("input")
+    const taskNameDiv = document.createElement("div")
+    const taskDateDiv = document.createElement("div")
+    const taskDateInput = document.createElement("input")
+    const taskDeleteDiv = document.createElement("div")
+    const taskDeleteBtn = document.createElement("button")
+
+    taskCheckboxDiv.appendChild(taskCheckboxInput)
+    taskDateDiv.appendChild(taskDateInput)
+    taskDeleteDiv.appendChild(taskDeleteBtn)
+    taskCardLeft.appendChild(taskCheckboxDiv)
+    taskCardLeft.appendChild(taskNameDiv)
+    taskCardRight.appendChild(taskDateDiv)
+    taskCardRight.appendChild(taskDeleteDiv)
+    taskCard.appendChild(taskCardLeft)
+    taskCard.appendChild(taskCardRight)
+    body.appendChild(taskCard)
+    // append to the place that will hold all task cards (not created yet)
 
     taskCard.classList.add("task-card")
-    const idName = "#" + newTask
-    taskCard.setAttribute("id", idName)
-    cardLeft.classList.add("card-left")
-    cardRight.classList.add("card-right")
-    checkbox.setAttribute("type", "checkbox")
-    checkbox.setAttribute("value", "completed")
-    taskTitle.classList.add("task-title")
-    taskDate.setAttribute("type", "date")
-    // for simplicity, when creating a task, no date input is provided
-    // so the date is set to today by default. it can be changed later
-    const today = new Date()
-    taskDate.valueAsDate = today
-    taskDate.setAttribute("min", today)
-    deleteBtn.classList.add("task-del")
-    deleteBtn.setAttribute("id", newTask + "-del")
-
-    taskCard.textContent = newTask
-    deleteBtn.textContent = "✖"
-
-    cardRight.appendChild(taskDate)
-    cardRight.appendChild(deleteBtn)
-    cardLeft.appendChild(checkbox)
-    cardLeft.appendChild(taskTitle)
-    taskCard.appendChild(cardLeft)
-    taskCard.appendChild(cardRight)
-
-    taskList.appendChild(taskCard)
+    taskCheckboxInput.setAttribute("type", "checkbox")
+    taskCheckboxInput.value = "complete"
+    taskNameDiv.textContent = newTask
+    const today = new Date() // the default date is the day of creation
+    taskDateInput.valueAsDate = today // the date cannot be set to a past day
+    taskDateInput.setAttribute("min", today)
+    taskDeleteBtn.textContent = "✖"
+    taskDeleteBtn.classList.add("task-del-btn")
+    taskDeleteBtn.classList.add("task-del")
 }
 
 const createProjectCard = (newProject) => {
-    const projectDiv = document.querySelector("#projects")
     const projectCard = document.createElement("div")
-    const cardName = document.createElement("button")
-    const cardDelete = document.createElement("button")
-    const reference = document.querySelector("#add-project-btn")
+    const projectBtn = document.createElement("button")
+    const projectDelBtn = document.createElement("button")
 
-    projectCard.setAttribute("display", "flex")
-    cardName.setAttribute("flex", "1")
-    cardName.setAttribute("id", newProject)
-    cardDelete.setAttribute("id", newProject + "-del")
+    projectCard.appendChild(projectBtn)
+    projectCard.appendChild(projectDelBtn)
+    // append to the sidebar underneath "Projects"
+    // const reference = document.querySelector("#add-project-btn")
+    // projectDiv.insertBefore(projectCard, reference.parentElement)
 
-    cardName.textContent = newProject
-    cardDelete.textContent = "✖"
-    projectCard.appendChild(cardName)
-    projectCard.appendChild(cardDelete)
-    projectDiv.insertBefore(projectCard, reference.parentElement)
+    projectBtn.textContent = newProject
+    projectBtn.classList.add("project-name")
+    projectDelBtn.textContent = "✖"
+    projectDelBtn.classList.add("project-del-btn")
+    projectCard.classList.add("project-card")
 }
 
 export { createProjectCard, createTaskCard }
