@@ -12,6 +12,10 @@
     padding: 0;
 }
 
+.hidden {
+    /* visibility: hidden; */
+}
+
 html {
     font-family: "Roboto", sans-serif;
 }
