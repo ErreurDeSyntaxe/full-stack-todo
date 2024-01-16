@@ -21,45 +21,17 @@ const buildSidebar = () => {
     const categoriesDiv = document.createElement("div");
     const inboxDiv = document.createElement("div");
     const inboxBtn = document.createElement("button");
-    // const todayDiv = document.createElement("div");
-    // const todayBtn = document.createElement("button");
-    // const weekDiv = document.createElement("div");
-    // const weekBtn = document.createElement("button");
-    // const historyDiv = document.createElement("div");
-    // const historyBtn = document.createElement("button");
 
     inboxBtn.classList.add("list-btn");
-    // todayBtn.classList.add("list-btn");
-    // weekBtn.classList.add("list-btn");
-    // historyBtn.classList.add("list-btn");
 
     inboxBtn.textContent = "Inbox";
-    // todayBtn.textContent = "Today";
-    // weekBtn.textContent = "This Week";
-    // historyBtn.textContent = "History";
 
     inboxBtn.addEventListener("click", () => {
         console.log("inbox");
     });
-    // todayBtn.addEventListener("click", () => {
-    //     console.log("today");
-    // });
-    // weekBtn.addEventListener("click", () => {
-    //     console.log("this week");
-    // });
-    // historyBtn.addEventListener("click", () => {
-    //     console.log("history");
-    // });
 
     inboxDiv.appendChild(inboxBtn);
-    // todayDiv.appendChild(todayBtn);
-    // weekDiv.appendChild(weekBtn);
-    // historyDiv.appendChild(historyBtn);
-
     categoriesDiv.appendChild(inboxDiv);
-    // categoriesDiv.appendChild(todayDiv);
-    // categoriesDiv.appendChild(weekDiv);
-    // categoriesDiv.appendChild(historyDiv);
     sideDiv.appendChild(categoriesDiv);
 
     // SIDEBAR: PROJECTS
