@@ -34,18 +34,18 @@ function todoApp() {
         for (let i = 0; i < projectList.length; i++) {
             if (i == currentProject) {
                 if (projectList[i].getTasks().length == 0) {
-                    console.log(">> Project " + i + " : " + projectList[i].getName() + " task: NO TASKS IN THIS PROJECT")
+                    console.log(">> Project " + i + ": " + projectList[i].getName() + " task: NO TASKS IN THIS PROJECT")
                 }
                 for (let j = 0; j < projectList[i].getTasks().length; j++) {
-                    console.log(">> Project " + i + " : " + projectList[i].getName() + " task: " + j + " " + projectList[i].getTasks()[j].getName())
+                    console.log(">> Project " + i + ": " + projectList[i].getName() + " task " + j + ": " + projectList[i].getTasks()[j].getName())
                 }
             }
             else {
                 if (projectList[i].getTasks().length == 0) {
-                    console.log("Project " + i + " : " + projectList[i].getName() + " task: NO TASKS IN THIS PROJECT")
+                    console.log("Project " + i + ": " + projectList[i].getName() + " task: NO TASKS IN THIS PROJECT")
                 }
                 for (let j = 0; j < projectList[i].getTasks().length; j++) {
-                    console.log("Project " + i + " : " + projectList[i].getName() + " task: " + j + " " + projectList[i].getTasks()[j].getName())
+                    console.log("Project " + i + ": " + projectList[i].getName() + " task: " + j + " " + projectList[i].getTasks()[j].getName())
                 }
             }
         }
@@ -84,9 +84,6 @@ function Project(string) {
             }
         }
         taskList.push(Task(string))
-        // for (let i = 0; i < taskList.length; i++) {
-        //     console.log(taskList[i].getName())
-        // }
         return true
     }
 
@@ -126,8 +123,8 @@ function Task(string) {
     return { getName, setName, getDate, setDate, getStatus, setStatus }
 }
 
-const createTaskCard = (newTask) => {
-    const body = document.querySelector("body")
+const createTaskCard = (newTask, project) => {
+    const tasks = document.querySelector("#tasks")
     const taskCard = document.createElement("div")
     const taskCardLeft = document.createElement("div")
     const taskCardRight = document.createElement("div")
@@ -148,11 +145,11 @@ const createTaskCard = (newTask) => {
     taskCardRight.appendChild(taskDeleteDiv)
     taskCard.appendChild(taskCardLeft)
     taskCard.appendChild(taskCardRight)
-    body.appendChild(taskCard)
+    tasks.appendChild(taskCard)
     // append to the place that will hold all task cards (not created yet)
 
     taskCard.classList.add("task-card")
-    taskCard.classList.toggle("hidden")
+    taskCard.classList.add(project)
     taskCheckboxInput.setAttribute("type", "checkbox")
     taskCheckboxInput.value = "complete"
     taskNameDiv.textContent = newTask
@@ -173,18 +170,17 @@ const createTaskCard = (newTask) => {
     // the date cannot be set to a past day
     taskDeleteBtn.textContent = "✖"
     taskDeleteBtn.classList.add("task-del-btn")
-    taskDeleteBtn.classList.add("task-del")
 }
 
 const createProjectCard = (newProject) => {
-    const body = document.querySelector("body")
+    const projects = document.querySelector("#projects")
     const projectCard = document.createElement("div")
     const projectBtn = document.createElement("button")
     const projectDelBtn = document.createElement("button")
 
     projectCard.appendChild(projectBtn)
     projectCard.appendChild(projectDelBtn)
-    body.appendChild(projectCard)
+    projects.appendChild(projectCard)
     // append to the sidebar underneath "Projects"
     // const reference = document.querySelector("#add-project-btn")
     // projectDiv.insertBefore(projectCard, reference.parentElement)
@@ -194,29 +190,51 @@ const createProjectCard = (newProject) => {
     projectDelBtn.textContent = "✖"
     projectDelBtn.classList.add("project-del-btn")
     projectCard.classList.add("project-card")
+    if (newProject == "Inbox") {
+        projectDelBtn.remove()
+    }
+}
+
+const displayCurrentProjectTask = () => {
+    const tasks = document.querySelector("#tasks")
+    const allChildren = tasks.children
+    const currentName = app.getProjects()[app.getCurrentProject()].getName()
+    for (let i = 0; i < allChildren.length; i++) {
+        if (allChildren[i].classList.contains(currentName)) {
+            allChildren[i].removeAttribute("hidden")
+        } else {
+            allChildren[i].setAttribute("hidden", true)
+        }
+    }
 }
 
 // export { todoApp }
 const app = todoApp()
+
 app.addProject("Inbox")
-app.addProject("Maïté")
-app.addProject("Exercise")
-app.addProject("Reading")
 createProjectCard("Inbox")
-createProjectCard("Maïté")
-createProjectCard("Exercise")
-createProjectCard("Reading")
 app.getProjects()[0].addTask("Live and let die")
+createTaskCard("Live and let die", app.getProjects()[app.getCurrentProject()].getName())
+
+app.addProject("Maïté")
+createProjectCard("Maïté")
 app.getProjects()[1].addTask("Drop Off")
 app.getProjects()[1].addTask("Pick Up")
 app.getProjects()[1].addTask("Play")
+createTaskCard("Drop Off", app.getProjects()[app.getCurrentProject()].getName())
+createTaskCard("Pick Up", app.getProjects()[app.getCurrentProject()].getName())
+createTaskCard("Play", app.getProjects()[app.getCurrentProject()].getName())
+
+app.addProject("Exercise")
+createProjectCard("Exercise")
 app.getProjects()[2].addTask("Jog")
 app.getProjects()[2].addTask("Stretch")
+createTaskCard("Jog", app.getProjects()[app.getCurrentProject()].getName())
+createTaskCard("Stretch", app.getProjects()[app.getCurrentProject()].getName())
+
+app.addProject("Reading")
+createProjectCard("Reading")
 app.getProjects()[3].addTask("LOTR")
-createTaskCard("Live and let die")
-createTaskCard("Drop Off")
-createTaskCard("Pick Up")
-createTaskCard("Play")
-createTaskCard("Jog")
-createTaskCard("Stretch")
-createTaskCard("LOTR")
+createTaskCard("LOTR", app.getProjects()[app.getCurrentProject()].getName())
+
+displayCurrentProjectTask()
