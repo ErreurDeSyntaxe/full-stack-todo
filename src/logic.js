@@ -18,7 +18,6 @@ function todoApp() {
             for (let i = 0; i < projectList.length; i++) {
                 if (projectList[i].getName() == string) {
                     projectList.splice(i, 1)
-                    console.log(string + " project deleted. Selecting 'Inbox'")
                     selectProject("Inbox")
                     break
                 }
@@ -54,7 +53,6 @@ function todoApp() {
     const selectProject = (string) => {
         for (let i = 0; i < projectList.length; i++) {
             if (projectList[i].getName() == string) {
-                console.log(string + " found at index " + i)
                 currentProject = i
             }
         }
@@ -153,6 +151,7 @@ const createTaskCard = (newTask, project) => {
     taskCheckboxInput.setAttribute("type", "checkbox")
     taskCheckboxInput.value = "complete"
     taskNameDiv.textContent = newTask
+    
     taskDateInput.setAttribute("type", "date")
     let today = new Date() // the default date is the day of creation
     taskDateInput.valueAsDate = today
@@ -167,7 +166,12 @@ const createTaskCard = (newTask, project) => {
         day = "0" + day //values need two digits
     }
     taskDateInput.setAttribute("min", `${year}-${month}-${day}`)
-    // the date cannot be set to a past day
+
+    taskDeleteBtn.addEventListener("click", () => {
+        app.getProjects()[app.getCurrentProject()].deleteTask(newTask)
+        taskCard.remove()
+    })
+
     taskDeleteBtn.textContent = "✖"
     taskDeleteBtn.classList.add("task-del-btn")
 }
@@ -185,10 +189,27 @@ const createProjectCard = (newProject) => {
     // const reference = document.querySelector("#add-project-btn")
     // projectDiv.insertBefore(projectCard, reference.parentElement)
 
+    projectBtn.addEventListener("click", () => {
+        app.selectProject(newProject)
+        displayCurrentProjectTask()
+    })
     projectBtn.textContent = newProject
     projectBtn.classList.add("project-name")
+
+    projectDelBtn.addEventListener("click", () => {
+        const allTasks = document.querySelector("#tasks").children
+        for (let i = allTasks.length - 1; i >= 0; i--) {
+            if (allTasks[i].classList.contains(newProject)) {
+                allTasks[i].remove()
+            }
+        }
+        app.deleteProject(newProject)
+        projectCard.remove()
+        displayCurrentProjectTask()
+    })
     projectDelBtn.textContent = "✖"
     projectDelBtn.classList.add("project-del-btn")
+
     projectCard.classList.add("project-card")
     if (newProject == "Inbox") {
         projectDelBtn.remove()
