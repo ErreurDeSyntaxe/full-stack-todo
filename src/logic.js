@@ -341,6 +341,10 @@ const createAddProjectButton = () => {
     })
 }
 
+const saveLocally = () => {
+    console.log("This doesn't do anything yet")
+}
+
 // export { todoApp }
 const app = todoApp()
 createAddTaskButton()
