@@ -396,28 +396,5 @@ app.checkStorage()
 if (app.addProject("Inbox")) {
     createProjectCard("Inbox")
 }
-// app.getProjects()[0].addTask("Live and let die")
-// createTaskCard("Live and let die", app.getProjects()[app.getCurrentProject()].getName())
-
-// app.addProject("Maïté")
-// createProjectCard("Maïté")
-// app.getProjects()[1].addTask("Drop Off")
-// app.getProjects()[1].addTask("Pick Up")
-// app.getProjects()[1].addTask("Play")
-// createTaskCard("Drop Off", app.getProjects()[app.getCurrentProject()].getName())
-// createTaskCard("Pick Up", app.getProjects()[app.getCurrentProject()].getName())
-// createTaskCard("Play", app.getProjects()[app.getCurrentProject()].getName())
-
-// app.addProject("Exercise")
-// createProjectCard("Exercise")
-// app.getProjects()[2].addTask("Jog")
-// app.getProjects()[2].addTask("Stretch")
-// createTaskCard("Jog", app.getProjects()[app.getCurrentProject()].getName())
-// createTaskCard("Stretch", app.getProjects()[app.getCurrentProject()].getName())
-
-// app.addProject("Reading")
-// createProjectCard("Reading")
-// app.getProjects()[3].addTask("LOTR")
-// createTaskCard("LOTR", app.getProjects()[app.getCurrentProject()].getName())
 
 displayCurrentProjectTask()
