@@ -82,6 +82,7 @@ function Project(string) {
             }
         }
         taskList.push(Task(string))
+        console.log(string + " added to project " + title)
         return true
     }
 
@@ -234,33 +235,141 @@ const displayCurrentProjectTask = () => {
     }
 }
 
+const createAddTaskButton = () => {
+    const addTaskDiv = document.querySelector("#add-task-div")
+    const addTaskBtn = document.createElement("button")
+    const confirmBtn = document.createElement("button")
+    const cancelBtn = document.createElement("button")
+    const textInput = document.createElement("input")
+    const inputDiv = document.createElement("div")
+
+    addTaskDiv.appendChild(addTaskBtn)
+    addTaskDiv.appendChild(inputDiv)
+    
+    inputDiv.appendChild(textInput)
+    inputDiv.appendChild(document.createElement("br"))
+    inputDiv.appendChild(confirmBtn)
+    inputDiv.appendChild(cancelBtn)
+
+    inputDiv.classList.add("hidden")
+    inputDiv.classList.add("task-input-div")
+
+    confirmBtn.textContent = "Confirm"
+    confirmBtn.classList.add("confirm-btn")
+    confirmBtn.addEventListener("click", () => {
+        if (textInput.value == "") {
+            textInput.focus()
+        } else {
+            if (app.getProjects()[app.getCurrentProject()].addTask(textInput.value)) {
+                createTaskCard(textInput.value, app.getProjects()[app.getCurrentProject()].getName())
+                textInput.value = ""
+                inputDiv.classList.add("hidden")
+                addTaskBtn.classList.remove("hidden")
+            }
+        }
+    })
+
+    cancelBtn.textContent = "Cancel"
+    cancelBtn.classList.add("cancel-btn")
+    cancelBtn.addEventListener("click", () => {
+        textInput.value = ""
+        inputDiv.classList.add("hidden")
+        addTaskBtn.classList.remove("hidden")
+    })
+
+    addTaskBtn.setAttribute("id", "add-task-btn")
+    addTaskBtn.textContent = "+ Task"
+    addTaskBtn.addEventListener("click", () => {
+        addTaskBtn.classList.add("hidden")
+        inputDiv.classList.remove("hidden")
+        textInput.focus()
+    })
+}
+
+const createAddProjectButton = () => {
+    const addProjectDiv = document.querySelector("#add-project-div")
+    const addProjectBtn = document.createElement("button")
+    const confirmBtn = document.createElement("button")
+    const cancelBtn = document.createElement("button")
+    const textInput = document.createElement("input")
+    const inputDiv = document.createElement("div")
+
+    addProjectDiv.appendChild(addProjectBtn)
+    addProjectDiv.appendChild(inputDiv)
+
+    inputDiv.appendChild(textInput)
+    inputDiv.appendChild(document.createElement("br"))
+    inputDiv.appendChild(confirmBtn)
+    inputDiv.appendChild(cancelBtn)
+
+    inputDiv.classList.add("hidden")
+    inputDiv.setAttribute("id", "project-input-div")
+
+    confirmBtn.textContent = "Confirm"
+    confirmBtn.classList.add("confirm-btn")
+    confirmBtn.addEventListener("click", () => {
+        if (textInput.value == "") {
+            textInput.focus()
+        } else {
+            if (app.addProject(textInput.value)) {
+                createProjectCard(textInput.value)
+                app.selectProject(textInput.value)
+                displayCurrentProjectTask()
+                textInput.value = ""
+                inputDiv.classList.add("hidden")
+                addProjectBtn.classList.remove("hidden")
+            } else {
+                alert("A project with that name already exists.")
+            }
+        }
+    })
+
+    cancelBtn.textContent = "Cancel"
+    cancelBtn.classList.add("cancel-btn")
+    cancelBtn.addEventListener("click", () => {
+        textInput.value = ""
+        inputDiv.classList.add("hidden")
+        addProjectBtn.classList.remove("hidden")
+    })
+
+    addProjectBtn.setAttribute("id", "add-project-btn")
+    addProjectBtn.textContent = "+ Project"
+    addProjectBtn.addEventListener("click", () => {
+        addProjectBtn.classList.add("hidden")
+        inputDiv.classList.remove("hidden")
+        textInput.focus()
+    })
+}
+
 // export { todoApp }
 const app = todoApp()
+createAddTaskButton()
+createAddProjectButton()
 
 app.addProject("Inbox")
 createProjectCard("Inbox")
-app.getProjects()[0].addTask("Live and let die")
-createTaskCard("Live and let die", app.getProjects()[app.getCurrentProject()].getName())
+// app.getProjects()[0].addTask("Live and let die")
+// createTaskCard("Live and let die", app.getProjects()[app.getCurrentProject()].getName())
 
-app.addProject("Maïté")
-createProjectCard("Maïté")
-app.getProjects()[1].addTask("Drop Off")
-app.getProjects()[1].addTask("Pick Up")
-app.getProjects()[1].addTask("Play")
-createTaskCard("Drop Off", app.getProjects()[app.getCurrentProject()].getName())
-createTaskCard("Pick Up", app.getProjects()[app.getCurrentProject()].getName())
-createTaskCard("Play", app.getProjects()[app.getCurrentProject()].getName())
+// app.addProject("Maïté")
+// createProjectCard("Maïté")
+// app.getProjects()[1].addTask("Drop Off")
+// app.getProjects()[1].addTask("Pick Up")
+// app.getProjects()[1].addTask("Play")
+// createTaskCard("Drop Off", app.getProjects()[app.getCurrentProject()].getName())
+// createTaskCard("Pick Up", app.getProjects()[app.getCurrentProject()].getName())
+// createTaskCard("Play", app.getProjects()[app.getCurrentProject()].getName())
 
-app.addProject("Exercise")
-createProjectCard("Exercise")
-app.getProjects()[2].addTask("Jog")
-app.getProjects()[2].addTask("Stretch")
-createTaskCard("Jog", app.getProjects()[app.getCurrentProject()].getName())
-createTaskCard("Stretch", app.getProjects()[app.getCurrentProject()].getName())
+// app.addProject("Exercise")
+// createProjectCard("Exercise")
+// app.getProjects()[2].addTask("Jog")
+// app.getProjects()[2].addTask("Stretch")
+// createTaskCard("Jog", app.getProjects()[app.getCurrentProject()].getName())
+// createTaskCard("Stretch", app.getProjects()[app.getCurrentProject()].getName())
 
-app.addProject("Reading")
-createProjectCard("Reading")
-app.getProjects()[3].addTask("LOTR")
-createTaskCard("LOTR", app.getProjects()[app.getCurrentProject()].getName())
+// app.addProject("Reading")
+// createProjectCard("Reading")
+// app.getProjects()[3].addTask("LOTR")
+// createTaskCard("LOTR", app.getProjects()[app.getCurrentProject()].getName())
 
 displayCurrentProjectTask()
