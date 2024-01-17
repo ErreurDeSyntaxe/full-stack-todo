@@ -1,7 +1,7 @@
 function todoApp() {
     const projectList = []
     let currentProject = 0;
-
+    
     const addProject = (title) => {
         for (let i = 0; i < projectList.length; i++) {
             if (projectList[i].getName() == title) {
@@ -25,6 +25,7 @@ function todoApp() {
         } else {
             console.log("Cannot delete default project 'Inbox'")
         }
+        saveLocally()
     }
 
     const getProjects = () => projectList
@@ -61,13 +62,34 @@ function todoApp() {
     // returns the array index, not the project itself
     const getCurrentProject = () => currentProject
 
+    const checkStorage = () => {
+        let projectData = JSON.parse(localStorage.getItem("projectData"))
+        console.log(projectData)
+        if (projectData !== null) {
+            for (let i = 0; i < projectData.length; i++) {
+                if (projectData[i].includes("#$") && addProject(projectData[i].replace("#$", ""))) {
+                    createProjectCard(projectData[i].replace("#$", ""))
+                    console.log(projectData[i].replace("#$", "") + " is a project name")
+                } else if (projectData[i].includes("%*")) {
+                    console.log(projectData[i].replace("%*", "") + " is a task name")
+                } else if (projectData[i].includes(")(")) {
+                    console.log(projectData[i].replace(")(", "") + " is a date")
+                } else if (projectData[i].includes("`?")) {
+                    console.log(projectData[i].replace("`?", "") + " is a status")
+                }
+            }
+        }
+        
+    }
+
     return {
         addProject,
         deleteProject,
         getProjects,
         selectProject,
         getCurrentProject,
-        printProjects
+        printProjects,
+        checkStorage
     }
 }
 
@@ -177,6 +199,8 @@ const createTaskCard = (newTask, project) => {
 
     taskDeleteBtn.textContent = "✖"
     taskDeleteBtn.classList.add("task-del-btn")
+
+    saveLocally()
 }
 
 const createProjectCard = (newProject) => {
@@ -188,9 +212,6 @@ const createProjectCard = (newProject) => {
     projectCard.appendChild(projectBtn)
     projectCard.appendChild(projectDelBtn)
     projects.appendChild(projectCard)
-    // append to the sidebar underneath "Projects"
-    // const reference = document.querySelector("#add-project-btn")
-    // projectDiv.insertBefore(projectCard, reference.parentElement)
 
     projectBtn.addEventListener("click", () => {
         app.selectProject(newProject)
@@ -217,6 +238,7 @@ const createProjectCard = (newProject) => {
     if (newProject == "Inbox") {
         projectDelBtn.remove()
     }
+    saveLocally()
 }
 
 const displayCurrentProjectTask = () => {
@@ -342,16 +364,28 @@ const createAddProjectButton = () => {
 }
 
 const saveLocally = () => {
-    console.log("This doesn't do anything yet")
+    let projectObjects = app.getProjects()
+    let projectNames = []
+    for (let i = 0; i < projectObjects.length; i++) {
+        projectNames.push("#$" + projectObjects[i].getName())
+        for (let j = 0; j < projectObjects[i].getTasks().length; j++) {
+            projectNames.push("%*" + projectObjects[i].getTasks()[j].getName())
+            projectNames.push(")(" + projectObjects[i].getTasks()[j].getDate())
+            projectNames.push("`?" + projectObjects[i].getTasks()[j].getStatus())
+        }
+    }
+    localStorage.setItem("projectData", JSON.stringify(projectNames))
 }
 
 // export { todoApp }
 const app = todoApp()
 createAddTaskButton()
 createAddProjectButton()
+app.checkStorage()
 
-app.addProject("Inbox")
-createProjectCard("Inbox")
+if (app.addProject("Inbox")) {
+    createProjectCard("Inbox")
+}
 // app.getProjects()[0].addTask("Live and let die")
 // createTaskCard("Live and let die", app.getProjects()[app.getCurrentProject()].getName())
 
