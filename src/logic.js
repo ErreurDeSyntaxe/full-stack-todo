@@ -68,15 +68,11 @@ function todoApp() {
             for (let i = 0; i < projectData.length; i++) {
                 if (projectData[i].includes("#$") && addProject(projectData[i].replace("#$", ""))) {
                     createProjectCard(projectData[i].replace("#$", ""))
-                    
+                    projectList[currentProject].addTask(projectData[i + 1])
+                    projectList[currentProject].getTasks()[projectList[currentProject].getCurrentTask()].setDate(projectData[i + 2])
+                    projectList[currentProject].getTasks()[projectList[currentProject].getCurrentTask()].setStatus(projectData[i + 3])
+                    createTaskCard(projectData[i + 1], projectList[currentProject].getName(), projectData[i + 2])
                 }
-                // else if (projectData[i].includes("%*")) {
-                //     console.log(projectData[i].replace("%*", "") + " is a task name")
-                // } else if (projectData[i].includes(")(")) {
-                //     console.log(projectData[i].replace(")(", "") + " is a date")
-                // } else if (projectData[i].includes("`?")) {
-                //     console.log(projectData[i].replace("`?", "") + " is a status")
-                // }
             }
         }
     }
@@ -95,6 +91,7 @@ function todoApp() {
 function Project(string) {
     const taskList = []
     let title = string
+    let currentTask = 0;
     
     const addTask = (string) => {
         for (let i = 0; i < taskList.length; i++) {
@@ -103,7 +100,6 @@ function Project(string) {
             }
         }
         taskList.push(Task(string))
-        console.log(string + " added to project " + title)
         return true
     }
 
@@ -120,11 +116,14 @@ function Project(string) {
 
     const getTasks = () => taskList
 
+    const getCurrentTask = () => currentTask
+
     return {
         addTask,
         deleteTask,
         getTasks,
-        getName
+        getName,
+        getCurrentTask
     }
 }
 
@@ -155,7 +154,7 @@ function Task(string) {
     }
 }
 
-const createTaskCard = (newTask, project) => {
+const createTaskCard = (newTask, project, date) => {
     const tasks = document.querySelector("#tasks")
     const taskCard = document.createElement("div")
     const taskCardLeft = document.createElement("div")
