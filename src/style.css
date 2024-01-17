@@ -34,7 +34,7 @@ main {
 
 #sidebar {
     background-color: #bd4b65;
-    width: 160px;
+    min-width: 160px;
     padding: 10px;
     & .project-card {
         display: flex;
@@ -54,9 +54,12 @@ main {
 }
 
 #container {
+    flex: 1;
+    min-width: 350px;
     display: flex;
     flex-direction: column;
     padding: 20px;
+    align-items: center;
 
     & #add-task-btn {
         margin-top: 20px;
@@ -68,6 +71,25 @@ main {
     }
     & #add-task-btn:hover{
         background-color: #6cf7e2;
+    }
+    & .task-card {
+        background-color: #3a9285;
+        border: 0;
+        border-radius: 8px;
+        margin: 8px 0;
+        padding: 8px;
+        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        width: 300px;
+    }
+    & .task-card-left,
+    & .task-card-right {
+        display: flex;
+        gap: 8px
+    }
+    & .hidden {
+        display: none;
     }
 }
 

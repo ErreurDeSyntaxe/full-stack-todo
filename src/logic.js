@@ -148,6 +148,8 @@ const createTaskCard = (newTask, project) => {
 
     taskCard.classList.add("task-card")
     taskCard.classList.add(project)
+    taskCardLeft.classList.add("task-card-left")
+    taskCardRight.classList.add("task-card-right")
     taskCheckboxInput.setAttribute("type", "checkbox")
     taskCheckboxInput.value = "complete"
     taskNameDiv.textContent = newTask
@@ -222,9 +224,12 @@ const displayCurrentProjectTask = () => {
     const currentName = app.getProjects()[app.getCurrentProject()].getName()
     for (let i = 0; i < allChildren.length; i++) {
         if (allChildren[i].classList.contains(currentName)) {
-            allChildren[i].removeAttribute("hidden")
+            allChildren[i].classList.remove("hidden")
+            // allChildren[i].removeAttribute("hidden")
         } else {
-            allChildren[i].setAttribute("hidden", true)
+            allChildren[i].classList.add("hidden")
+            // allChildren[i].setAttribute("hidden", true)
+            // this way of doing things is incompatible with Flexbox...
         }
     }
 }
