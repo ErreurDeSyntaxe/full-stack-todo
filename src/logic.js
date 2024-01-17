@@ -64,22 +64,21 @@ function todoApp() {
 
     const checkStorage = () => {
         let projectData = JSON.parse(localStorage.getItem("projectData"))
-        console.log(projectData)
         if (projectData !== null) {
             for (let i = 0; i < projectData.length; i++) {
                 if (projectData[i].includes("#$") && addProject(projectData[i].replace("#$", ""))) {
                     createProjectCard(projectData[i].replace("#$", ""))
-                    console.log(projectData[i].replace("#$", "") + " is a project name")
-                } else if (projectData[i].includes("%*")) {
-                    console.log(projectData[i].replace("%*", "") + " is a task name")
-                } else if (projectData[i].includes(")(")) {
-                    console.log(projectData[i].replace(")(", "") + " is a date")
-                } else if (projectData[i].includes("`?")) {
-                    console.log(projectData[i].replace("`?", "") + " is a status")
+                    
                 }
+                // else if (projectData[i].includes("%*")) {
+                //     console.log(projectData[i].replace("%*", "") + " is a task name")
+                // } else if (projectData[i].includes(")(")) {
+                //     console.log(projectData[i].replace(")(", "") + " is a date")
+                // } else if (projectData[i].includes("`?")) {
+                //     console.log(projectData[i].replace("`?", "") + " is a status")
+                // }
             }
         }
-        
     }
 
     return {
@@ -121,7 +120,12 @@ function Project(string) {
 
     const getTasks = () => taskList
 
-    return { addTask, deleteTask, getTasks, getName }
+    return {
+        addTask,
+        deleteTask,
+        getTasks,
+        getName
+    }
 }
 
 function Task(string) {
@@ -141,7 +145,14 @@ function Task(string) {
 
     const setStatus = (newStatus) => status = newStatus
 
-    return { getName, setName, getDate, setDate, getStatus, setStatus }
+    return {
+        getName,
+        setName,
+        getDate,
+        setDate,
+        getStatus,
+        setStatus
+    }
 }
 
 const createTaskCard = (newTask, project) => {
@@ -369,9 +380,9 @@ const saveLocally = () => {
     for (let i = 0; i < projectObjects.length; i++) {
         projectNames.push("#$" + projectObjects[i].getName())
         for (let j = 0; j < projectObjects[i].getTasks().length; j++) {
-            projectNames.push("%*" + projectObjects[i].getTasks()[j].getName())
-            projectNames.push(")(" + projectObjects[i].getTasks()[j].getDate())
-            projectNames.push("`?" + projectObjects[i].getTasks()[j].getStatus())
+            projectNames.push(projectObjects[i].getTasks()[j].getName())
+            projectNames.push(projectObjects[i].getTasks()[j].getDate())
+            projectNames.push(projectObjects[i].getTasks()[j].getStatus())
         }
     }
     localStorage.setItem("projectData", JSON.stringify(projectNames))
