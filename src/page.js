@@ -32,7 +32,11 @@ function buildSidebar() {
   sidebar.setAttribute('id', 'sidebar');
   projects.setAttribute('id', 'projects');
 
-  addProjectBtn.textContent = '+ Project';
+  addProject.setAttribute('id', 'addProjectBtnContainer');
+
+  addProjectBtn.textContent = '+Project';
+  addProjectBtn.setAttribute('id', 'addProjectBtn');
+  addProjectBtn.classList.add('adderBtn');
   addProject.addEventListener('click', () =>
     console.log('I need to be built! (probably in another module)')
   );
@@ -48,19 +52,26 @@ function buildSidebar() {
 function buildTaskContainer() {
   const main = document.querySelector('main');
   const container = document.createElement('div');
+  const parentProject = document.createElement('div');
   const tasks = document.createElement('div');
   const addTask = document.createElement('div');
   const addTaskBtn = document.createElement('button');
 
+  parentProject.setAttribute('id', 'parentProject');
   container.setAttribute('id', 'container');
   tasks.setAttribute('id', 'tasks');
 
-  addTaskBtn.textContent = '+ Task';
+  addTask.setAttribute('id', 'addTaskBtnContainer');
+
+  addTaskBtn.textContent = '+Task';
+  addTaskBtn.setAttribute('id', 'addTaskBtn');
+  addTaskBtn.classList.add('adderBtn');
   addTaskBtn.addEventListener('click', () => {
     console.log('I need to be built! (probably in another module)');
   });
 
   addTask.appendChild(addTaskBtn);
+  container.appendChild(parentProject);
   container.appendChild(tasks);
   container.appendChild(addTask);
   main.appendChild(container);

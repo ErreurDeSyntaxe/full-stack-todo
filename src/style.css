@@ -70,9 +70,44 @@ main {
   }
 }
 
+/* ADD TASK AND ADD PROJECT BUTTONS STYLING */
+.adderBtn {
+  border: 0;
+  border-radius: 0.4rem;
+  font-size: 1.1rem;
+  background-color: transparent;
+  padding: 0.4rem;
+}
+
+#addProjectBtnContainer,
+#addTaskBtnContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.adderBtn:hover {
+  background-color: black;
+  color: white;
+}
+
+/* TASK STYLING */
 #container {
   background-color: #c39172;
   flex: 7;
+}
+
+#parentProject {
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  padding: 0.7rem;
+  background-color: #8c8e6c;
+  border-radius: 0.4rem;
 }
 
 #tasks {
@@ -105,7 +140,7 @@ main {
   & button {
     background-color: transparent;
     border: 0;
-    border-radius: 0.4rem; 
+    border-radius: 0.4rem;
     margin-right: 0.2rem;
     width: 1.2rem;
   }
