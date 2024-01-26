@@ -27,8 +27,8 @@ function todoApp() {
     }
     projectList.push(Project(newProject));
     console.log(`New project '${newProject}' added.`);
-    currentProject = projectList.length - 1;
     // The newly created project becomes the focus
+    currentProject = projectList.length - 1;
   };
 
   const removeProject = (unwantedProject) => {
@@ -38,7 +38,8 @@ function todoApp() {
     for (let i = 0; i < projectList.length; i++) {
       if (projectList[i].getName() === unwantedProject) {
         projectList.splice(i, 1);
-        currentProject = 0; // Back to Inbox project
+        // Back to Inbox project
+        currentProject = 0;
         return;
       }
     }
@@ -48,7 +49,7 @@ function todoApp() {
     for (let i = 0; i < projectList.length; i++) {
       if (wanted === projectList[i].getName()) {
         currentProject = i;
-        //printAll();
+        console.log(`Project '${wanted}' selected.`);
       }
     }
   };
@@ -114,19 +115,28 @@ function todoApp() {
     // Retrieve the projects from storage
     const localProjects = JSON.parse(localStorage.getItem('localProjects'));
     console.log(localProjects);
-    if (!localProjects) return; // There's nothing in storage. Abort.
+
+    // There's nothing in storage. Abort.
+    if (!localProjects) return;
+
     localProjects.forEach((project) => {
-      addProject(project); // Add each name found in storage as a project
+      // Add each name found in storage as a project
+      addProject(project);
     });
 
     // Retrieve the tasks from storage
     const localTasks = JSON.parse(localStorage.getItem('localTasks'));
     console.log(localTasks);
-    if (!localTasks) return; // There's nothing in storage. Abort.
+
+    // There's nothing in storage. Abort.
+    if (!localTasks) return;
+
     localTasks.forEach((item) => {
       const projectTask = item.split('#$%');
-      selectProject(projectTask[0]); // Select the project first
-      addTask(projectTask[1]); // Then add the task to the project
+      // Select the project first
+      selectProject(projectTask[0]);
+      // Then add the task to the project
+      addTask(projectTask[1]);
     });
   };
 
