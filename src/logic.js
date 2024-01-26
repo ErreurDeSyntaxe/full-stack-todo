@@ -1,3 +1,5 @@
+import { displayProjects } from "./display";
+
 function todoApp() {
   const projectList = [];
   const taskList = [];
@@ -26,6 +28,7 @@ function todoApp() {
       }
     }
     projectList.push(Project(newProject));
+    displayProjects(getProjects());
     console.log(`New project '${newProject}' added.`);
     // The newly created project becomes the focus
     currentProject = projectList.length - 1;
@@ -38,6 +41,7 @@ function todoApp() {
     for (let i = 0; i < projectList.length; i++) {
       if (projectList[i].getName() === unwantedProject) {
         projectList.splice(i, 1);
+        displayProjects(getProjects());
         // Back to Inbox project
         currentProject = 0;
         return;
