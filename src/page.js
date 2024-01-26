@@ -1,4 +1,5 @@
 import Icon from './img/check.svg';
+import IconBlack from './img/check-black.svg';
 
 function changeFavicon() {
   const head = document.querySelector('head');
@@ -11,9 +12,12 @@ function changeFavicon() {
 function buildHeader() {
   const body = document.querySelector('body');
   const header = document.createElement('header');
+  const headerIcon = new Image();
 
+  headerIcon.src = IconBlack;
   header.textContent = 'To Do';
 
+  header.prepend(headerIcon);
   body.prepend(header);
 }
 

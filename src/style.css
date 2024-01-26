@@ -15,8 +15,46 @@
 :root {
   --clr-primary: rgb(0, 0, 0);
   --clr-secondary: rgb(255, 255, 255);
+  --clr-text: #16100e;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
-  font-size: 2rem;
+  font-size: 3rem;
+  font-weight: bold;
+  padding: 1rem;
+  background-color: #8c8e6c;
+  color: var(--clr-text);
+  & img {
+    width: 2.4rem;
+  }
+}
+
+main {
+  flex: 1;
+  display: flex;
+}
+
+#sidebar {
+  background-color: #827484;
+  width: 220px;
+}
+
+#container {
+  background-color: #c39172;
+  flex: 7;
+}
+
+footer {
+  background-color: #8c8e6c;
+  text-align: center;
+  color: var(--clr-text);
+  & a {
+    color: #6e4b30;
+  }
 }
