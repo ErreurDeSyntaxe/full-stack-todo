@@ -75,6 +75,45 @@ main {
   flex: 7;
 }
 
+#tasks {
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.taskCard {
+  width: 60%;
+  background-color: #8c8e6c;
+  border-radius: 0.4rem;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 1.33rem;
+
+  & input[type='checkbox'] {
+    margin: 0 0.5rem 0 0.5rem;
+  }
+  & :nth-child(2) {
+    flex: 1;
+  }
+  & input[type='date'] {
+    margin: 0 0.5rem 0 0.5rem;
+  }
+  & button {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0.4rem; 
+    margin-right: 0.2rem;
+    width: 1.2rem;
+  }
+  & button:hover {
+    background-color: #d0d3a1;
+  }
+}
+
 footer {
   background-color: #8c8e6c;
   text-align: center;

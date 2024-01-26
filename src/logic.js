@@ -193,6 +193,7 @@ function todoApp() {
         taskCard.appendChild(taskName);
         taskCard.appendChild(taskDate);
         taskCard.appendChild(taskDate);
+        taskCard.appendChild(taskDelete);
         tasksDiv.appendChild(taskCard);
       }
     }
