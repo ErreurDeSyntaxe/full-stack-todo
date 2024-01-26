@@ -41,9 +41,10 @@ function todoApp() {
     for (let i = 0; i < projectList.length; i++) {
       if (projectList[i].getName() === unwantedProject) {
         projectList.splice(i, 1);
-        displayProjects(getProjects());
         // Back to Inbox project
-        currentProject = 0;
+        selectProject('Inbox');
+        displayProjects(getProjects());
+        printAll();
         return;
       }
     }
