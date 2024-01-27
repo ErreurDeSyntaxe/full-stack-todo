@@ -104,11 +104,6 @@ function todoApp() {
 
     // Add task to task list
     taskList.push(Task(newTask, getProjects()[getCurrentProject()].getName()));
-    // console.log(
-    //   `New task '${newTask}' in project '${getProjects()[
-    //     getCurrentProject()
-    //   ].getName()}' added.`
-    // );
     displayTasks();
     storeLocally();
   };
@@ -144,9 +139,6 @@ function todoApp() {
       const parentName = task.getParent();
       const taskName = task.getName();
       const fullName = `${parentName}#$%${taskName}`;
-      console.log(parentName);
-      console.log(taskName);
-      console.log(fullName);
       return fullName;
     });
 
@@ -173,11 +165,7 @@ function todoApp() {
 
     // If there's something in storage
     if (localTasks) {
-      console.log('First hurdle');
-      console.log(localTasks);
       if (localTasks.length > 0) {
-        console.log('Do you even lift?');
-        console.log(localTasks);
         localTasks.forEach((item) => {
           const projectTask = item.split('#$%');
           // Select the project first
