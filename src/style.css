@@ -13,9 +13,10 @@
 }
 
 :root {
-  --clr-primary: rgb(0, 0, 0);
-  --clr-secondary: rgb(255, 255, 255);
-  --clr-text: #16100e;
+  --clr-primary: #075099;
+  --clr-secondary: #d2b48c;
+  --clr-tertiary: #347aa8;
+  --clr-text: black;
 }
 
 body {
@@ -25,11 +26,27 @@ body {
 }
 
 header {
+  display: flex;
+  justify-content: space-between;
   font-size: 3rem;
   font-weight: bold;
   padding: 1rem;
-  background-color: #8c8e6c;
+  background-color: var(--clr-primary);
   color: var(--clr-text);
+
+  & :first-child {
+    display: flex;
+  }
+
+  & :last-child {
+    display: flex;
+    justify-content: right;
+  }
+
+  & :last-child:hover {
+    cursor: pointer;
+  }
+
   & img {
     width: 2.4rem;
   }
@@ -41,9 +58,13 @@ main {
 }
 
 #sidebar {
-  background-color: #827484;
-  width: 220px;
+  background-color: var(--clr-secondary);
+  width: 200px;
   padding: 1rem 0.1rem 0 0.1rem;
+}
+
+.invisible {
+  display: none;
 }
 
 #projects > * {
@@ -117,7 +138,7 @@ main {
 
 /* TASK STYLING */
 #container {
-  background-color: #c39172;
+  background-color: var(--clr-tertiary);
   flex: 7;
 }
 
@@ -129,8 +150,9 @@ main {
   margin-right: auto;
   width: fit-content;
   padding: 0.7rem;
-  background-color: #8c8e6c;
+  background-color: var(--clr-primary);
   border-radius: 0.4rem;
+  color: var(--clr-text);
 }
 
 #tasks {
@@ -140,7 +162,7 @@ main {
 
 .taskCard {
   width: 60%;
-  background-color: #8c8e6c;
+  background-color: var(--clr-primary);
   border-radius: 0.4rem;
   display: flex;
   margin-left: auto;
@@ -173,10 +195,10 @@ main {
 }
 
 footer {
-  background-color: #8c8e6c;
+  background-color: var(--clr-primary);
   text-align: center;
   color: var(--clr-text);
   & a {
-    color: #6e4b30;
+    color: var(--clr-text);
   }
 }

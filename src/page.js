@@ -1,5 +1,6 @@
 import Icon from './img/check.svg';
 import IconBlack from './img/check-black.svg';
+import Menu from './img/menu.svg';
 
 function changeFavicon() {
   const head = document.querySelector('head');
@@ -12,13 +13,37 @@ function changeFavicon() {
 function buildHeader() {
   const body = document.querySelector('body');
   const header = document.createElement('header');
+  const headerLeft = document.createElement('div');
+  const headerText = document.createElement('div');
+  const headerRight = document.createElement('div');
   const headerIcon = new Image();
+  const menuIcon = new Image();
+
+  menuIcon.setAttribute('id', 'menu');
+  menuIcon.src = Menu;
+  menuIcon.addEventListener('click', () => {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('invisible');
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth <= 700) {
+      sidebar.classList.add('invisible');
+    } else {
+      sidebar.classList.remove('invisible');
+    }
+  });
 
   headerIcon.src = IconBlack;
-  header.textContent = 'To Do';
+  headerText.textContent = 'To Do';
 
-  header.prepend(headerIcon);
-  body.prepend(header);
+  headerLeft.appendChild(headerIcon);
+  headerLeft.appendChild(headerText);
+  headerRight.appendChild(menuIcon);
+  header.appendChild(headerLeft);
+  header.appendChild(headerRight);
+
+  body.appendChild(header);
 }
 
 function buildSidebar() {
