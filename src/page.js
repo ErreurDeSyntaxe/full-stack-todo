@@ -72,9 +72,11 @@ function buildSidebarInput() {
 
   confirmBtn.textContent = 'Confirm';
   confirmBtn.setAttribute('id', 'projectConfirm');
+  confirmBtn.classList.add('confirmBtn');
 
   cancelBtn.textContent = 'Cancel';
   cancelBtn.setAttribute('id', 'projectCancel');
+  cancelBtn.classList.add('cancelBtn');
 
   btnDiv.appendChild(confirmBtn);
   btnDiv.appendChild(cancelBtn);
@@ -136,9 +138,11 @@ function buildTaskContainerInput() {
 
   confirmBtn.textContent = 'Confirm';
   confirmBtn.setAttribute('id', 'taskConfirm');
+  confirmBtn.classList.add('confirmBtn');
 
   cancelBtn.textContent = 'Cancel';
   cancelBtn.setAttribute('id', 'taskCancel');
+  cancelBtn.classList.add('cancelBtn');
 
   btnDiv.appendChild(confirmBtn);
   btnDiv.appendChild(cancelBtn);
