@@ -56,6 +56,7 @@ function todoApp() {
         selectProject('Inbox');
         displayProjects();
         printAll();
+        storeLocally();
         return;
       }
     }
