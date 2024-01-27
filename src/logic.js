@@ -21,6 +21,7 @@ function todoApp() {
   const addProject = (newProject) => {
     for (const project of projectList) {
       if (project.getName() === newProject) {
+        console.log(`A project called '${newProject}' already exists.`);
         return;
       }
     }
@@ -256,40 +257,26 @@ function todoApp() {
     // The input and buttons and everything should be built in page.js
     // Here, all I should do i activate the buttons and make the divs
     // either hidden or visible, then process the input. Tomorrow!
-    const newProjectDiv = document.getElementById('addProjectBtnContainer');
-    const hiddenDiv = document.createElement('div');
-    const inputDiv = document.createElement('div');
-    const inputText = document.createElement('input');
-    const btnDiv = document.createElement('div');
-    const confirmBtn = document.createElement('button');
-    const cancelBtn = document.createElement('button');
+    const addProjectBtn = document.getElementById('addProjectBtn');
+    const hiddenDiv = document.getElementById('hiddenProject');
+    const projectConfirm = document.getElementById('projectConfirm');
+    const projectCancel = document.getElementById('projectCancel');
+    const projectInput = document.getElementById('projectInput');
 
-    hiddenDiv.setAttribute('hidden', true);
-
-    inputText.setAttribute('type', 'text');
-    inputText.setAttribute('placeholder', 'Project Name');
-    inputText.classList.add('textInput');
-
-    confirmBtn.textContent = 'Confirm';
-    confirmBtn.addEventListener('click', () => {
+    projectConfirm.addEventListener('click', () => {
       console.log('Do something more than console.log');
-      addProject(inputText.value);
-      inputText.value = '';
+      addProject(projectInput.value);
+      projectInput.value = '';
+      hiddenDiv.setAttribute('hidden', true);
+      addProjectBtn.removeAttribute('hidden');
     });
 
-    cancelBtn.textContent = 'Cancel';
-    cancelBtn.addEventListener('click', () => {
+    projectCancel.addEventListener('click', () => {
       console.log('Do something more than console.log');
-      inputText.value = '';
+      projectInput.value = '';
+      hiddenDiv.setAttribute('hidden', true);
+      addProjectBtn.removeAttribute('hidden');
     });
-
-    btnDiv.appendChild(confirmBtn);
-    btnDiv.appendChild(cancelBtn);
-    inputDiv.appendChild(inputText);
-    inputDiv.appendChild(btnDiv);
-    hiddenDiv.appendChild(inputDiv);
-    hiddenDiv.appendChild(btnDiv);
-    newProjectDiv.appendChild(hiddenDiv);
   };
 
   return {

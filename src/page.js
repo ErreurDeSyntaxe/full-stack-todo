@@ -37,9 +37,14 @@ function buildSidebar() {
   addProjectBtn.textContent = '+Project';
   addProjectBtn.setAttribute('id', 'addProjectBtn');
   addProjectBtn.classList.add('adderBtn');
-  addProject.addEventListener('click', () =>
-    console.log('I need to be built! (probably in another module)')
-  );
+  addProjectBtn.addEventListener('click', () => {
+    const hiddenDiv = document.getElementById('hiddenProject');
+    const projectInput = document.getElementById('projectInput');
+    console.log('I need to be built! (probably in another module)');
+    addProjectBtn.setAttribute('hidden', true);
+    hiddenDiv.removeAttribute('hidden');
+    projectInput.focus();
+  });
 
   addProject.appendChild(addProjectBtn);
   sidebar.appendChild(projects);
@@ -47,6 +52,38 @@ function buildSidebar() {
   addProject.appendChild(addProjectBtn);
   main.appendChild(sidebar);
   body.appendChild(main);
+}
+
+function buildSidebarInput() {
+  const newProjectDiv = document.getElementById('addProjectBtnContainer');
+  const hiddenDiv = document.createElement('div');
+  const inputDiv = document.createElement('div');
+  const inputText = document.createElement('input');
+  const btnDiv = document.createElement('div');
+  const confirmBtn = document.createElement('button');
+  const cancelBtn = document.createElement('button');
+
+  hiddenDiv.setAttribute('hidden', true);
+  hiddenDiv.setAttribute('id', 'hiddenProject');
+
+  inputText.setAttribute('type', 'text');
+  inputText.setAttribute('placeholder', 'Project Name');
+  inputText.classList.add('textInput');
+  inputText.setAttribute('id', 'projectInput');
+
+  confirmBtn.textContent = 'Confirm';
+  confirmBtn.setAttribute('id', 'projectConfirm');
+
+  cancelBtn.textContent = 'Cancel';
+  cancelBtn.setAttribute('id', 'projectCancel');
+
+  btnDiv.appendChild(confirmBtn);
+  btnDiv.appendChild(cancelBtn);
+  inputDiv.appendChild(inputText);
+  inputDiv.appendChild(btnDiv);
+  hiddenDiv.appendChild(inputDiv);
+  hiddenDiv.appendChild(btnDiv);
+  newProjectDiv.appendChild(hiddenDiv);
 }
 
 function buildTaskContainer() {
@@ -91,6 +128,7 @@ function buildPage() {
   changeFavicon();
   buildHeader();
   buildSidebar();
+  buildSidebarInput();
   buildTaskContainer();
   buildFooter();
 }
