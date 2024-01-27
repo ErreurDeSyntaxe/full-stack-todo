@@ -33,6 +33,7 @@ function todoApp() {
     displayProjects();
     // The newly created project becomes the focus
     currentProject = projectList.length - 1;
+    storeLocally();
   };
 
   const removeProject = (unwantedProject) => {
@@ -103,12 +104,13 @@ function todoApp() {
 
     // Add task to task list
     taskList.push(Task(newTask, getProjects()[getCurrentProject()].getName()));
-    console.log(
-      `New task '${newTask}' in project '${getProjects()[
-        getCurrentProject()
-      ].getName()}' added.`
-    );
+    // console.log(
+    //   `New task '${newTask}' in project '${getProjects()[
+    //     getCurrentProject()
+    //   ].getName()}' added.`
+    // );
     displayTasks();
+    storeLocally();
   };
 
   const removeTask = (unwantedTask) => {
@@ -137,13 +139,18 @@ function todoApp() {
     localStorage.setItem('localProjects', JSON.stringify(projectNames));
 
     // Store the tasks
+    if (taskList.length === 0) return;
     const taskNames = taskList.map((task) => {
       const parentName = task.getParent();
       const taskName = task.getName();
       const fullName = `${parentName}#$%${taskName}`;
+      console.log(parentName);
+      console.log(taskName);
+      console.log(fullName);
       return fullName;
     });
 
+    console.table(taskNames);
     localStorage.setItem('localTasks', JSON.stringify(taskNames));
   };
 
@@ -153,10 +160,12 @@ function todoApp() {
 
     // If there's something in storage
     if (localProjects) {
-      localProjects.forEach((project) => {
-        // Add each name found in storage as a project
-        addProject(project);
-      });
+      if (localProjects.length > 0) {
+        localProjects.forEach((project) => {
+          // Add each name found in storage as a project
+          addProject(project);
+        });
+      }
     }
 
     // Retrieve the tasks from storage
@@ -164,13 +173,19 @@ function todoApp() {
 
     // If there's something in storage
     if (localTasks) {
-      localTasks.forEach((item) => {
-        const projectTask = item.split('#$%');
-        // Select the project first
-        selectProject(projectTask[0]);
-        // Then add the task to the project
-        addTask(projectTask[1]);
-      });
+      console.log('First hurdle');
+      console.log(localTasks);
+      if (localTasks.length > 0) {
+        console.log('Do you even lift?');
+        console.log(localTasks);
+        localTasks.forEach((item) => {
+          const projectTask = item.split('#$%');
+          // Select the project first
+          selectProject(projectTask[0]);
+          // Then add the task to the project
+          addTask(projectTask[1]);
+        });
+      }
     }
   };
 
@@ -270,16 +285,18 @@ function todoApp() {
     const projectInput = document.getElementById('projectInput');
 
     projectConfirm.addEventListener('click', () => {
-      console.log('Do something more than console.log');
-      addProject(projectInput.value);
-      selectProject(projectInput.value);
-      projectInput.value = '';
-      hiddenDiv.setAttribute('hidden', true);
-      addProjectBtn.removeAttribute('hidden');
+      if (projectInput.value !== '') {
+        addProject(projectInput.value);
+        selectProject(projectInput.value);
+        projectInput.value = '';
+        hiddenDiv.setAttribute('hidden', true);
+        addProjectBtn.removeAttribute('hidden');
+      } else {
+        projectInput.focus();
+      }
     });
 
     projectCancel.addEventListener('click', () => {
-      console.log('Do something more than console.log');
       projectInput.value = '';
       hiddenDiv.setAttribute('hidden', true);
       addProjectBtn.removeAttribute('hidden');
@@ -297,15 +314,17 @@ function todoApp() {
     const taskInput = document.getElementById('taskInput');
 
     taskConfirm.addEventListener('click', () => {
-      console.log('Do something more than console.log');
-      addTask(taskInput.value);
-      taskInput.value = '';
-      hiddenDiv.setAttribute('hidden', true);
-      addTaskBtn.removeAttribute('hidden');
+      if (taskInput.value !== '') {
+        addTask(taskInput.value);
+        taskInput.value = '';
+        hiddenDiv.setAttribute('hidden', true);
+        addTaskBtn.removeAttribute('hidden');
+      } else {
+        taskInput.focus();
+      }
     });
 
     taskCancel.addEventListener('click', () => {
-      console.log('Do something more than console.log');
       taskInput.value = '';
       hiddenDiv.setAttribute('hidden', true);
       addTaskBtn.removeAttribute('hidden');
