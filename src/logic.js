@@ -19,6 +19,9 @@ function todoApp() {
   };
 
   const addProject = (newProject) => {
+    if (newProject === '') return;
+
+    // Check if the project already exists
     for (const project of projectList) {
       if (project.getName() === newProject) {
         console.log(`A project called '${newProject}' already exists.`);
@@ -78,6 +81,8 @@ function todoApp() {
   const getCurrentProject = () => currentProject;
 
   const addTask = (newTask) => {
+    if (newTask === '') return;
+
     // Check if task already exists
     if (taskList.length !== 0) {
       for (const task of taskList) {
@@ -103,6 +108,7 @@ function todoApp() {
         getCurrentProject()
       ].getName()}' added.`
     );
+    displayTasks();
   };
 
   const removeTask = (unwantedTask) => {
@@ -266,6 +272,7 @@ function todoApp() {
     projectConfirm.addEventListener('click', () => {
       console.log('Do something more than console.log');
       addProject(projectInput.value);
+      selectProject(projectInput.value);
       projectInput.value = '';
       hiddenDiv.setAttribute('hidden', true);
       addProjectBtn.removeAttribute('hidden');
@@ -276,6 +283,32 @@ function todoApp() {
       projectInput.value = '';
       hiddenDiv.setAttribute('hidden', true);
       addProjectBtn.removeAttribute('hidden');
+    });
+  };
+
+  const newTaskInput = () => {
+    // The input and buttons and everything should be built in page.js
+    // Here, all I should do i activate the buttons and make the divs
+    // either hidden or visible, then process the input. Tomorrow!
+    const addTaskBtn = document.getElementById('addTaskBtn');
+    const hiddenDiv = document.getElementById('hiddenTask');
+    const taskConfirm = document.getElementById('taskConfirm');
+    const taskCancel = document.getElementById('taskCancel');
+    const taskInput = document.getElementById('taskInput');
+
+    taskConfirm.addEventListener('click', () => {
+      console.log('Do something more than console.log');
+      addTask(taskInput.value);
+      taskInput.value = '';
+      hiddenDiv.setAttribute('hidden', true);
+      addTaskBtn.removeAttribute('hidden');
+    });
+
+    taskCancel.addEventListener('click', () => {
+      console.log('Do something more than console.log');
+      taskInput.value = '';
+      hiddenDiv.setAttribute('hidden', true);
+      addTaskBtn.removeAttribute('hidden');
     });
   };
 
@@ -291,6 +324,7 @@ function todoApp() {
     storeLocally,
     readLocally,
     newProjectInput,
+    newTaskInput,
   };
 }
 

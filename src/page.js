@@ -40,7 +40,6 @@ function buildSidebar() {
   addProjectBtn.addEventListener('click', () => {
     const hiddenDiv = document.getElementById('hiddenProject');
     const projectInput = document.getElementById('projectInput');
-    console.log('I need to be built! (probably in another module)');
     addProjectBtn.setAttribute('hidden', true);
     hiddenDiv.removeAttribute('hidden');
     projectInput.focus();
@@ -104,7 +103,11 @@ function buildTaskContainer() {
   addTaskBtn.setAttribute('id', 'addTaskBtn');
   addTaskBtn.classList.add('adderBtn');
   addTaskBtn.addEventListener('click', () => {
-    console.log('I need to be built! (probably in another module)');
+    const hiddenDiv = document.getElementById('hiddenTask');
+    const taskInput = document.getElementById('taskInput');
+    addTaskBtn.setAttribute('hidden', true);
+    hiddenDiv.removeAttribute('hidden');
+    taskInput.focus();
   });
 
   addTask.appendChild(addTaskBtn);
@@ -112,6 +115,38 @@ function buildTaskContainer() {
   container.appendChild(tasks);
   container.appendChild(addTask);
   main.appendChild(container);
+}
+
+function buildTaskContainerInput() {
+  const newTaskDiv = document.getElementById('addTaskBtnContainer');
+  const hiddenDiv = document.createElement('div');
+  const inputDiv = document.createElement('div');
+  const inputText = document.createElement('input');
+  const btnDiv = document.createElement('div');
+  const confirmBtn = document.createElement('button');
+  const cancelBtn = document.createElement('button');
+
+  hiddenDiv.setAttribute('hidden', true);
+  hiddenDiv.setAttribute('id', 'hiddenTask');
+
+  inputText.setAttribute('type', 'text');
+  inputText.setAttribute('placeholder', 'Task Name');
+  inputText.classList.add('textInput');
+  inputText.setAttribute('id', 'taskInput');
+
+  confirmBtn.textContent = 'Confirm';
+  confirmBtn.setAttribute('id', 'taskConfirm');
+
+  cancelBtn.textContent = 'Cancel';
+  cancelBtn.setAttribute('id', 'taskCancel');
+
+  btnDiv.appendChild(confirmBtn);
+  btnDiv.appendChild(cancelBtn);
+  inputDiv.appendChild(inputText);
+  inputDiv.appendChild(btnDiv);
+  hiddenDiv.appendChild(inputDiv);
+  hiddenDiv.appendChild(btnDiv);
+  newTaskDiv.appendChild(hiddenDiv);
 }
 
 function buildFooter() {
@@ -130,6 +165,7 @@ function buildPage() {
   buildSidebar();
   buildSidebarInput();
   buildTaskContainer();
+  buildTaskContainerInput();
   buildFooter();
 }
 
