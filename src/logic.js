@@ -1,400 +1,394 @@
 function todoApp() {
-    const projectList = []
-    let currentProject = 0;
-    
-    const addProject = (title) => {
-        for (let i = 0; i < projectList.length; i++) {
-            if (projectList[i].getName() == title) {
-                return false
-            }
+  const projectList = [];
+  const taskList = [];
+  let currentProject = 0;
+
+  const printAll = () => {
+    console.log('\n******Project List:******');
+    for (let i = 0; i < projectList.length; i++) {
+      if (currentProject === i) {
+        console.log(projectList[i].getName() + ' <<<<<<');
+      } else {
+        console.log(projectList[i].getName());
+      }
+    }
+    console.log('\n++++++++Task List:++++++++');
+    for (const task of taskList) {
+      console.log(task.getParent() + ': ' + task.getName());
+    }
+  };
+
+  const addProject = (newProject) => {
+    if (newProject === '') return;
+
+    // Check if the project already exists
+    for (const project of projectList) {
+      if (project.getName() === newProject) {
+        console.log(`A project called '${newProject}' already exists.`);
+        return;
+      }
+    }
+
+    projectList.push(Project(newProject));
+    displayProjects();
+    // The newly created project becomes the focus
+    currentProject = projectList.length - 1;
+    storeLocally();
+  };
+
+  const removeProject = (unwantedProject) => {
+    if (unwantedProject === 'Inbox') {
+      return;
+    }
+
+    for (let i = 0; i < projectList.length; i++) {
+      if (projectList[i].getName() === unwantedProject) {
+        projectList.splice(i, 1);
+
+        // TODO: remove the tasks belonging to the deleted project
+        for (let j = taskList.length - 1; j >= 0; j--) {
+          if (taskList[j].getParent() === unwantedProject) {
+            taskList.splice(j, 1);
+          }
         }
-        projectList.push(Project(title))
-        currentProject = projectList.length - 1
-        return true
+
+        // Back to Inbox project
+        selectProject('Inbox');
+        displayProjects();
+        printAll();
+        return;
+      }
+    }
+  };
+
+  const selectProject = (wanted) => {
+    /*
+     * I chose a for loop rather than an Array method because the
+     * currentProject variable is an index of the projectList array
+     */
+    for (let i = 0; i < projectList.length; i++) {
+      if (wanted === projectList[i].getName()) {
+        currentProject = i;
+        displayTasks();
+      }
     }
 
-    const deleteProject = (string) => {
-        if (string != "Inbox") {
-            for (let i = 0; i < projectList.length; i++) {
-                if (projectList[i].getName() == string) {
-                    projectList.splice(i, 1)
-                    selectProject("Inbox")
-                    break
-                }
-            }
-        } else {
-            console.log("Cannot delete default project 'Inbox'")
+    const parentProject = document.getElementById('parentProject');
+    parentProject.textContent = wanted;
+  };
+
+  const getProjects = () => projectList;
+
+  const getCurrentProject = () => currentProject;
+
+  const addTask = (newTask) => {
+    if (newTask === '') return;
+
+    // Check if task already exists
+    if (taskList.length !== 0) {
+      for (const task of taskList) {
+        if (
+          task.getParent() === getProjects()[getCurrentProject()].getName() &&
+          task.getName() === newTask
+        ) {
+          // Refuse to add task because it exists
+          console.log(
+            `A task called '${newTask}' in project '${getProjects()[
+              getCurrentProject()
+            ].getName()}' already exists.`
+          );
+          return;
         }
-        saveLocally()
+      }
     }
 
-    const getProjects = () => projectList
+    // Add task to task list
+    taskList.push(Task(newTask, getProjects()[getCurrentProject()].getName()));
+    // console.log(
+    //   `New task '${newTask}' in project '${getProjects()[
+    //     getCurrentProject()
+    //   ].getName()}' added.`
+    // );
+    displayTasks();
+    storeLocally();
+  };
 
-    const printProjects = () => {
-        for (let i = 0; i < projectList.length; i++) {
-            if (i == currentProject) {
-                if (projectList[i].getTasks().length == 0) {
-                    console.log(">> Project " + i + ": " + projectList[i].getName() + " task: NO TASKS IN THIS PROJECT")
-                }
-                for (let j = 0; j < projectList[i].getTasks().length; j++) {
-                    console.log(">> Project " + i + ": " + projectList[i].getName() + " task " + j + ": " + projectList[i].getTasks()[j].getName())
-                }
-            }
-            else {
-                if (projectList[i].getTasks().length == 0) {
-                    console.log("Project " + i + ": " + projectList[i].getName() + " task: NO TASKS IN THIS PROJECT")
-                }
-                for (let j = 0; j < projectList[i].getTasks().length; j++) {
-                    console.log("Project " + i + ": " + projectList[i].getName() + " task: " + j + " " + projectList[i].getTasks()[j].getName())
-                }
-            }
-        }
+  const removeTask = (unwantedTask) => {
+    /*
+     * I chose to use a for loop instead of an Array method because
+     * the splice method is so useful and requires the array index
+     */
+    for (let i = 0; i < taskList.length; i++) {
+      if (
+        taskList[i].getName() === unwantedTask &&
+        taskList[i].getParent() === getProjects()[getCurrentProject()].getName()
+      ) {
+        taskList.splice(i, 1);
+        displayTasks();
+        printAll();
+        return;
+      }
+    }
+  };
+
+  const storeLocally = () => {
+    // Store the projects
+    const projectNames = projectList.map((project) => {
+      return project.getName();
+    });
+    localStorage.setItem('localProjects', JSON.stringify(projectNames));
+
+    // Store the tasks
+    if (taskList.length === 0) return;
+    const taskNames = taskList.map((task) => {
+      const parentName = task.getParent();
+      const taskName = task.getName();
+      const fullName = `${parentName}#$%${taskName}`;
+      console.log(parentName);
+      console.log(taskName);
+      console.log(fullName);
+      return fullName;
+    });
+
+    console.table(taskNames);
+    localStorage.setItem('localTasks', JSON.stringify(taskNames));
+  };
+
+  const readLocally = () => {
+    // Retrieve the projects from storage
+    const localProjects = JSON.parse(localStorage.getItem('localProjects'));
+
+    // If there's something in storage
+    if (localProjects) {
+      if (localProjects.length > 0) {
+        localProjects.forEach((project) => {
+          // Add each name found in storage as a project
+          addProject(project);
+        });
+      }
     }
 
-    const selectProject = (string) => {
-        for (let i = 0; i < projectList.length; i++) {
-            if (projectList[i].getName() == string) {
-                currentProject = i
-            }
-        }
+    // Retrieve the tasks from storage
+    const localTasks = JSON.parse(localStorage.getItem('localTasks'));
+
+    // If there's something in storage
+    if (localTasks) {
+      console.log('First hurdle');
+      console.log(localTasks);
+      if (localTasks.length > 0) {
+        console.log('Do you even lift?');
+        console.log(localTasks);
+        localTasks.forEach((item) => {
+          const projectTask = item.split('#$%');
+          // Select the project first
+          selectProject(projectTask[0]);
+          // Then add the task to the project
+          addTask(projectTask[1]);
+        });
+      }
+    }
+  };
+
+  const displayTasks = () => {
+    // TODO: display tasks from the current project only
+    const tasksDiv = document.getElementById('tasks');
+    const currentProjectName = projectList[getCurrentProject()].getName();
+
+    // Remove all tasks from the container, add current project tasks
+    while (tasksDiv.firstChild) {
+      tasksDiv.removeChild(tasksDiv.lastChild);
     }
 
-    // returns the array index, not the project itself
-    const getCurrentProject = () => currentProject
+    // Add relevant tasks to the container
+    for (const task of taskList) {
+      if (task.getParent() === currentProjectName) {
+        const taskCard = document.createElement('div');
+        const taskCheck = document.createElement('div');
+        const taskCheckInput = document.createElement('input');
+        const taskName = document.createElement('div');
+        const taskDate = document.createElement('div');
+        const taskDateInput = document.createElement('input');
+        const taskDelete = document.createElement('div');
+        const taskDeleteBtn = document.createElement('button');
 
-    const checkStorage = () => {
-        let projectData = JSON.parse(localStorage.getItem("projectData"))
-        if (projectData !== null) {
-            for (let i = 0; i < projectData.length; i++) {
-                if (projectData[i].includes("#$") && addProject(projectData[i].replace("#$", ""))) {
-                    createProjectCard(projectData[i].replace("#$", ""))
-                    projectList[currentProject].addTask(projectData[i + 1])
-                    projectList[currentProject].getTasks()[projectList[currentProject].getCurrentTask()].setDate(projectData[i + 2])
-                    projectList[currentProject].getTasks()[projectList[currentProject].getCurrentTask()].setStatus(projectData[i + 3])
-                    createTaskCard(projectData[i + 1], projectList[currentProject].getName(), projectData[i + 2])
-                }
-            }
-        }
+        taskCard.classList.add('taskCard');
+        taskCheckInput.setAttribute('type', 'checkbox');
+        taskName.textContent = task.getName();
+        taskDateInput.setAttribute('type', 'date');
+        taskDateInput.valueAsDate = task.getDate();
+        taskDeleteBtn.textContent = '✖';
+
+        taskDeleteBtn.addEventListener('click', () => {
+          removeTask(task.getName());
+        });
+
+        taskCheck.appendChild(taskCheckInput);
+        taskDate.appendChild(taskDateInput);
+        taskDelete.appendChild(taskDeleteBtn);
+        taskCard.appendChild(taskCheck);
+        taskCard.appendChild(taskName);
+        taskCard.appendChild(taskDate);
+        taskCard.appendChild(taskDate);
+        taskCard.appendChild(taskDelete);
+        tasksDiv.appendChild(taskCard);
+      }
+    }
+  };
+
+  const displayProjects = () => {
+    const projectsDiv = document.getElementById('projects');
+
+    // Remove all projects from the sidebar, re-add them later
+    while (projectsDiv.firstChild) {
+      projectsDiv.removeChild(projectsDiv.lastChild);
     }
 
-    return {
-        addProject,
-        deleteProject,
-        getProjects,
-        selectProject,
-        getCurrentProject,
-        printProjects,
-        checkStorage
-    }
+    // FIXME: This can't be the best way to accomplish the goal
+    projectList.forEach((element) => {
+      const project = document.createElement('div');
+      const selectMe = document.createElement('button');
+      const deleteMe = document.createElement('button');
+      const elementName = element.getName();
+
+      selectMe.textContent = elementName;
+      deleteMe.textContent = '✖';
+
+      selectMe.addEventListener('click', () => {
+        selectProject(elementName);
+      });
+
+      deleteMe.addEventListener('click', () => {
+        removeProject(elementName);
+      });
+
+      project.appendChild(selectMe);
+      if (elementName !== 'Inbox') project.appendChild(deleteMe);
+      projectsDiv.appendChild(project);
+    });
+
+    // Add a black line between the projects and the 'add project' button
+    const line = document.createElement('hr');
+    line.style.borderColor = 'black';
+    line.style.marginTop = '10px';
+    line.style.marginBottom = '10px';
+    projectsDiv.appendChild(line);
+  };
+
+  const newProjectInput = () => {
+    // The input and buttons and everything should be built in page.js
+    // Here, all I should do i activate the buttons and make the divs
+    // either hidden or visible, then process the input. Tomorrow!
+    const addProjectBtn = document.getElementById('addProjectBtn');
+    const hiddenDiv = document.getElementById('hiddenProject');
+    const projectConfirm = document.getElementById('projectConfirm');
+    const projectCancel = document.getElementById('projectCancel');
+    const projectInput = document.getElementById('projectInput');
+
+    projectConfirm.addEventListener('click', () => {
+      if (projectInput.value !== '') {
+        addProject(projectInput.value);
+        selectProject(projectInput.value);
+        projectInput.value = '';
+        hiddenDiv.setAttribute('hidden', true);
+        addProjectBtn.removeAttribute('hidden');
+      } else {
+        projectInput.focus();
+      }
+    });
+
+    projectCancel.addEventListener('click', () => {
+      projectInput.value = '';
+      hiddenDiv.setAttribute('hidden', true);
+      addProjectBtn.removeAttribute('hidden');
+    });
+  };
+
+  const newTaskInput = () => {
+    // The input and buttons and everything should be built in page.js
+    // Here, all I should do i activate the buttons and make the divs
+    // either hidden or visible, then process the input. Tomorrow!
+    const addTaskBtn = document.getElementById('addTaskBtn');
+    const hiddenDiv = document.getElementById('hiddenTask');
+    const taskConfirm = document.getElementById('taskConfirm');
+    const taskCancel = document.getElementById('taskCancel');
+    const taskInput = document.getElementById('taskInput');
+
+    taskConfirm.addEventListener('click', () => {
+      if (taskInput.value !== '') {
+        addTask(taskInput.value);
+        taskInput.value = '';
+        hiddenDiv.setAttribute('hidden', true);
+        addTaskBtn.removeAttribute('hidden');
+      } else {
+        taskInput.focus();
+      }
+    });
+
+    taskCancel.addEventListener('click', () => {
+      taskInput.value = '';
+      hiddenDiv.setAttribute('hidden', true);
+      addTaskBtn.removeAttribute('hidden');
+    });
+  };
+
+  return {
+    printAll,
+    addProject,
+    removeProject,
+    getCurrentProject,
+    getProjects,
+    selectProject,
+    addTask,
+    removeTask,
+    storeLocally,
+    readLocally,
+    newProjectInput,
+    newTaskInput,
+  };
 }
 
 function Project(string) {
-    const taskList = []
-    let title = string
-    let currentTask = 0;
-    
-    const addTask = (string) => {
-        for (let i = 0; i < taskList.length; i++) {
-            if (taskList[i].getName() == string) {
-                return false
-            }
-        }
-        taskList.push(Task(string))
-        return true
-    }
+  // const id = 1;
+  let name = string;
 
-    const deleteTask = (string) => {
-        for (let i = 0; i < taskList.length; i++) {
-            if (taskList[i].getName() == string) {
-                taskList.splice(i, 1)
-                break
-            }
-        }
-    }
+  const getName = () => {
+    return name;
+  };
 
-    const getName = () => title
+  const setName = (newName) => {
+    name = newName;
+  };
 
-    const getTasks = () => taskList
-
-    const getCurrentTask = () => currentTask
-
-    return {
-        addTask,
-        deleteTask,
-        getTasks,
-        getName,
-        getCurrentTask
-    }
+  return { getName, setName };
 }
 
-function Task(string) {
-    let name = string
-    let date = new Date()
-    let status = "incomplete"
+function Task(taskName, projectName) {
+  // const id = 1;
+  let parentProject = projectName;
+  let name = taskName;
+  let dueDate = new Date();
 
-    const getName = () => name
+  const getDate = () => {
+    return dueDate;
+  };
 
-    const setName = (newName) => name = newName
+  const setDate = (newDate) => {
+    dueDate = newDate;
+  };
 
-    const getDate = () => date
+  const getName = () => {
+    return name;
+  };
 
-    const setDate = (newDate) => date = newDate
+  const getParent = () => {
+    return parentProject;
+  };
 
-    const getStatus = () => status
+  const setName = (newName) => {
+    name = newName;
+  };
 
-    const setStatus = (newStatus) => status = newStatus
-
-    return {
-        getName,
-        setName,
-        getDate,
-        setDate,
-        getStatus,
-        setStatus
-    }
+  return { getDate, setDate, getName, getParent, setName };
 }
 
-const createTaskCard = (newTask, project, date) => {
-    const tasks = document.querySelector("#tasks")
-    const taskCard = document.createElement("div")
-    const taskCardLeft = document.createElement("div")
-    const taskCardRight = document.createElement("div")
-    const taskCheckboxDiv = document.createElement("div")
-    const taskCheckboxInput = document.createElement("input")
-    const taskNameDiv = document.createElement("div")
-    const taskDateDiv = document.createElement("div")
-    const taskDateInput = document.createElement("input")
-    const taskDeleteDiv = document.createElement("div")
-    const taskDeleteBtn = document.createElement("button")
-
-    taskCheckboxDiv.appendChild(taskCheckboxInput)
-    taskDateDiv.appendChild(taskDateInput)
-    taskDeleteDiv.appendChild(taskDeleteBtn)
-    taskCardLeft.appendChild(taskCheckboxDiv)
-    taskCardLeft.appendChild(taskNameDiv)
-    taskCardRight.appendChild(taskDateDiv)
-    taskCardRight.appendChild(taskDeleteDiv)
-    taskCard.appendChild(taskCardLeft)
-    taskCard.appendChild(taskCardRight)
-    tasks.appendChild(taskCard)
-    // append to the place that will hold all task cards (not created yet)
-
-    taskCard.classList.add("task-card")
-    taskCard.classList.add(project)
-    taskCardLeft.classList.add("task-card-left")
-    taskCardRight.classList.add("task-card-right")
-    taskCheckboxInput.setAttribute("type", "checkbox")
-    taskCheckboxInput.value = "complete"
-    taskNameDiv.textContent = newTask
-    
-    taskDateInput.setAttribute("type", "date")
-    let today = new Date() // the default date is the day of creation
-    taskDateInput.valueAsDate = today
-    // the date cannot be set to a past day
-    let year = today.getFullYear()
-    let month = today.getMonth() + 1 //January is 0
-    if (month < 10) {
-        month = "0" + month //values need two digits
-    }
-    let day = today.getDate()
-    if (day < 10) {
-        day = "0" + day //values need two digits
-    }
-    taskDateInput.setAttribute("min", `${year}-${month}-${day}`)
-
-    taskDeleteBtn.addEventListener("click", () => {
-        app.getProjects()[app.getCurrentProject()].deleteTask(newTask)
-        taskCard.remove()
-    })
-
-    taskDeleteBtn.textContent = "✖"
-    taskDeleteBtn.classList.add("task-del-btn")
-
-    saveLocally()
-}
-
-const createProjectCard = (newProject) => {
-    const projects = document.querySelector("#projects")
-    const projectCard = document.createElement("div")
-    const projectBtn = document.createElement("button")
-    const projectDelBtn = document.createElement("button")
-
-    projectCard.appendChild(projectBtn)
-    projectCard.appendChild(projectDelBtn)
-    projects.appendChild(projectCard)
-
-    projectBtn.addEventListener("click", () => {
-        app.selectProject(newProject)
-        displayCurrentProjectTask()
-    })
-    projectBtn.textContent = newProject
-    projectBtn.classList.add("project-name")
-
-    projectDelBtn.addEventListener("click", () => {
-        const allTasks = document.querySelector("#tasks").children
-        for (let i = allTasks.length - 1; i >= 0; i--) {
-            if (allTasks[i].classList.contains(newProject)) {
-                allTasks[i].remove()
-            }
-        }
-        app.deleteProject(newProject)
-        projectCard.remove()
-        displayCurrentProjectTask()
-    })
-    projectDelBtn.textContent = "✖"
-    projectDelBtn.classList.add("project-del-btn")
-
-    projectCard.classList.add("project-card")
-    if (newProject == "Inbox") {
-        projectDelBtn.remove()
-    }
-    saveLocally()
-}
-
-const displayCurrentProjectTask = () => {
-    const tasks = document.querySelector("#tasks")
-    const allChildren = tasks.children
-    const currentName = app.getProjects()[app.getCurrentProject()].getName()
-    for (let i = 0; i < allChildren.length; i++) {
-        if (allChildren[i].classList.contains(currentName)) {
-            allChildren[i].classList.remove("hidden")
-            // allChildren[i].removeAttribute("hidden")
-        } else {
-            allChildren[i].classList.add("hidden")
-            // allChildren[i].setAttribute("hidden", true)
-            // this way of doing things is incompatible with Flexbox...
-        }
-    }
-}
-
-const createAddTaskButton = () => {
-    const addTaskDiv = document.querySelector("#add-task-div")
-    const addTaskBtn = document.createElement("button")
-    const confirmBtn = document.createElement("button")
-    const cancelBtn = document.createElement("button")
-    const textInput = document.createElement("input")
-    const inputDiv = document.createElement("div")
-
-    addTaskDiv.appendChild(addTaskBtn)
-    addTaskDiv.appendChild(inputDiv)
-    
-    inputDiv.appendChild(textInput)
-    inputDiv.appendChild(document.createElement("br"))
-    inputDiv.appendChild(confirmBtn)
-    inputDiv.appendChild(cancelBtn)
-
-    inputDiv.classList.add("hidden")
-    inputDiv.classList.add("task-input-div")
-
-    confirmBtn.textContent = "Confirm"
-    confirmBtn.classList.add("confirm-btn")
-    confirmBtn.addEventListener("click", () => {
-        if (textInput.value == "") {
-            textInput.focus()
-        } else {
-            if (app.getProjects()[app.getCurrentProject()].addTask(textInput.value)) {
-                createTaskCard(textInput.value, app.getProjects()[app.getCurrentProject()].getName())
-                textInput.value = ""
-                inputDiv.classList.add("hidden")
-                addTaskBtn.classList.remove("hidden")
-            }
-        }
-    })
-
-    cancelBtn.textContent = "Cancel"
-    cancelBtn.classList.add("cancel-btn")
-    cancelBtn.addEventListener("click", () => {
-        textInput.value = ""
-        inputDiv.classList.add("hidden")
-        addTaskBtn.classList.remove("hidden")
-    })
-
-    addTaskBtn.setAttribute("id", "add-task-btn")
-    addTaskBtn.textContent = "+ Task"
-    addTaskBtn.addEventListener("click", () => {
-        addTaskBtn.classList.add("hidden")
-        inputDiv.classList.remove("hidden")
-        textInput.focus()
-    })
-}
-
-const createAddProjectButton = () => {
-    const addProjectDiv = document.querySelector("#add-project-div")
-    const addProjectBtn = document.createElement("button")
-    const confirmBtn = document.createElement("button")
-    const cancelBtn = document.createElement("button")
-    const textInput = document.createElement("input")
-    const inputDiv = document.createElement("div")
-
-    addProjectDiv.appendChild(addProjectBtn)
-    addProjectDiv.appendChild(inputDiv)
-
-    inputDiv.appendChild(textInput)
-    inputDiv.appendChild(document.createElement("br"))
-    inputDiv.appendChild(confirmBtn)
-    inputDiv.appendChild(cancelBtn)
-
-    inputDiv.classList.add("hidden")
-    inputDiv.setAttribute("id", "project-input-div")
-
-    confirmBtn.textContent = "Confirm"
-    confirmBtn.classList.add("confirm-btn")
-    confirmBtn.addEventListener("click", () => {
-        if (textInput.value == "") {
-            textInput.focus()
-        } else {
-            if (app.addProject(textInput.value)) {
-                createProjectCard(textInput.value)
-                app.selectProject(textInput.value)
-                displayCurrentProjectTask()
-                textInput.value = ""
-                inputDiv.classList.add("hidden")
-                addProjectBtn.classList.remove("hidden")
-            } else {
-                alert("A project with that name already exists.")
-            }
-        }
-    })
-
-    cancelBtn.textContent = "Cancel"
-    cancelBtn.classList.add("cancel-btn")
-    cancelBtn.addEventListener("click", () => {
-        textInput.value = ""
-        inputDiv.classList.add("hidden")
-        addProjectBtn.classList.remove("hidden")
-    })
-
-    addProjectBtn.setAttribute("id", "add-project-btn")
-    addProjectBtn.textContent = "+ Project"
-    addProjectBtn.addEventListener("click", () => {
-        addProjectBtn.classList.add("hidden")
-        inputDiv.classList.remove("hidden")
-        textInput.focus()
-    })
-}
-
-const saveLocally = () => {
-    let projectObjects = app.getProjects()
-    let projectNames = []
-    for (let i = 0; i < projectObjects.length; i++) {
-        projectNames.push("#$" + projectObjects[i].getName())
-        for (let j = 0; j < projectObjects[i].getTasks().length; j++) {
-            projectNames.push(projectObjects[i].getTasks()[j].getName())
-            projectNames.push(projectObjects[i].getTasks()[j].getDate())
-            projectNames.push(projectObjects[i].getTasks()[j].getStatus())
-        }
-    }
-    localStorage.setItem("projectData", JSON.stringify(projectNames))
-}
-
-// export { todoApp }
-const app = todoApp()
-createAddTaskButton()
-createAddProjectButton()
-app.checkStorage()
-
-if (app.addProject("Inbox")) {
-    createProjectCard("Inbox")
-}
-
-displayCurrentProjectTask()
+export { todoApp };

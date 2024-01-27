@@ -1,153 +1,182 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@font-face {
+  font-family: 'Roboto';
+  src: url('./font/Roboto-Regular.ttf');
+}
 
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
-html {
-    font-family: "Roboto", sans-serif;
+:root {
+  --clr-primary: rgb(0, 0, 0);
+  --clr-secondary: rgb(255, 255, 255);
+  --clr-text: #16100e;
 }
 
 body {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
-    background-color: #364d53;
-    color: white;
-    font-size: 4rem;
-    font-weight: bold;
-    padding: 10px 0 0 20px;
+  font-size: 3rem;
+  font-weight: bold;
+  padding: 1rem;
+  background-color: #8c8e6c;
+  color: var(--clr-text);
+  & img {
+    width: 2.4rem;
+  }
 }
 
 main {
-    background-color: #5adfca;
-    flex: 1;
-    display: flex;
+  flex: 1;
+  display: flex;
 }
 
 #sidebar {
-    background-color: #bd4b65;
-    width: 180px;
-    padding: 10px;
-    & .project-card {
-        display: flex;
-        justify-content: space-between;
-    }
-    & button {
-        background-color: #9c3c52;
-        border: 0;
-        border-radius: 8px;
-        padding: 8px;
-        margin: 8px 0;
-        font-size: 1.3rem;
-    }
-    & #project-input-div {
-        border: 1px dashed white;
-        max-width: 90%;
-        padding-right: 0 !important;
-    }
-    & input {
-        font-size: 1.3rem;
-        height: 1.9rem;
-        padding: 4px;
-        width: 100%;
-    }
-    & button:hover {
-        background-color: #e05777;
-    }
-    & .confirm-btn {
-        background-color: #3a9285;
-        font-size: 1rem;
-    }
-    & .cancel-btn {
-        background-color: #9c3c52;
-        font-size: 1rem;
-        margin-left: 2px;
-    }
-    & .hidden {
-        display: none;
-    }
+  background-color: #827484;
+  width: 220px;
+  padding: 1rem 0.1rem 0 0.1rem;
 }
 
-#container {
+#projects > * {
+  display: flex;
+  /* Selects the button containing the project name */
+  & :first-child {
     flex: 1;
-    min-width: 350px;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    align-items: center;
-    & #add-task-div {
-        margin-top: 20px;
-    }
-    & #add-task-btn {
-        border: 0;
-        border-radius: 8px;
-        padding: 8px;
-        font-size: 1.3rem;
-        background-color: #3a9285;
-    }
-    & #add-task-btn:hover{
-        background-color: #6cf7e2;
-    }
-    & .task-input-div {
-        & input {
-            height: 1.9rem;
-            padding: 4px;
-            font-size: 1.3rem;
-            width: calc(177px + 12px)
-        }
-        button {
-            border: 0;
-            border-radius: 8px;
-            padding: 8px;
-            font-size: 1.3rem;
-            margin: 4px;
-        }
-        & .confirm-btn {
-            background-color: #3a9285;
-        }
-        & .cancel-btn {
-            background-color: #bd4b65;
-        }
-    }
-    & .task-card {
-        background-color: #3a9285;
-        border: 0;
-        border-radius: 8px;
-        margin: 8px 0;
-        padding: 8px;
-        text-align: center;
-        display: flex;
-        justify-content: space-between;
-        width: 300px;
-    }
-    & .task-card-left,
-    & .task-card-right {
-        display: flex;
-        gap: 8px
-    }
-    & .hidden {
-        display: none;
-    }
+    text-align: left;
+    padding-left: 0.5rem;
+  }
+  & :first-child::before {
+    background-image: url('./img/check-black.svg');
+  }
+  /* Selects both buttons in the div */
+  & > * {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0.4rem;
+    font-size: 1.3rem;
+    padding: 0.1rem;
+  }
+  & button:hover {
+    background-color: #c8aecc;
+  }
+}
+
+/* ADD TASK AND ADD PROJECT STYLING */
+.adderBtn {
+  border: 0;
+  border-radius: 0.4rem;
+  font-size: 1.1rem;
+  background-color: transparent;
+  padding: 0.4rem;
+}
+
+#addProjectBtnContainer,
+#addTaskBtnContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.adderBtn:hover {
+  background-color: black;
+  color: white;
+}
+
+.textInput {
+  height: 1.4rem;
+  padding: 0.4rem;
+  border-radius: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+
+.confirmBtn {
+  border: 0;
+  border-radius: 0.4rem;
+  padding: 0.4rem;
+  background-color: rgb(70, 114, 70);
+  width: 50%;
+}
+
+.cancelBtn {
+  border: 0;
+  border-radius: 0.4rem;
+  padding: 0.4rem;
+  background-color: rgb(150, 54, 54);
+  width: 50%;
+}
+
+/* TASK STYLING */
+#container {
+  background-color: #c39172;
+  flex: 7;
+}
+
+#parentProject {
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  padding: 0.7rem;
+  background-color: #8c8e6c;
+  border-radius: 0.4rem;
+}
+
+#tasks {
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.taskCard {
+  width: 60%;
+  background-color: #8c8e6c;
+  border-radius: 0.4rem;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 1.33rem;
+
+  & input[type='checkbox'] {
+    margin: 0 0.5rem 0 0.5rem;
+  }
+  & :nth-child(2) {
+    flex: 1;
+  }
+  & input[type='date'] {
+    margin: 0 0.5rem 0 0.5rem;
+  }
+  & button {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0.4rem;
+    margin-right: 0.2rem;
+    width: 1.2rem;
+  }
+  & button:hover {
+    background-color: #d0d3a1;
+  }
 }
 
 footer {
-    background-color: #364d53;
-    color: white;
-    text-align: center;
-    font-weight: 400;
-    height: 38px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    & a {
-        color: whitesmoke;
-    }
+  background-color: #8c8e6c;
+  text-align: center;
+  color: var(--clr-text);
+  & a {
+    color: #6e4b30;
+  }
 }
