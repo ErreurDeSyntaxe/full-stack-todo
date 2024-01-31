@@ -87,7 +87,7 @@ main {
     padding: 0.1rem;
   }
   & button:hover {
-    background-color: #c8aecc;
+    background-color: #f1d8b6;
   }
 }
 
@@ -190,7 +190,7 @@ main {
     width: 1.2rem;
   }
   & button:hover {
-    background-color: #d0d3a1;
+    background-color: #347aa8;
   }
 }
 
