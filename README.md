@@ -5,7 +5,7 @@ An in-browser to-do application
 ## Preview
 
 <div align="center">
-    <img src="./project-preview.png">
+    <img src="./README/project-preview.png">
 </div>
 
 ## Links
@@ -16,10 +16,11 @@ An in-browser to-do application
 
 ## Built With
 
--HTML  
--CSS  
--JavaScript  
--webpack  
+<img src='./README/html5-logo.svg' style='width:40px; height: 40px' >  
+<img src='./README/css3-logo.svg' style='width:40px; height: 40px' >  
+<img src='./README/javascript-logo.svg' style='width:40px; height: 40px' >  
+<img src='./README/webpack-logo.svg' style='width:40px; height: 40px' >
+
 -localStorage
 
 ## Notable Features
@@ -27,13 +28,13 @@ An in-browser to-do application
 -Default project  
 -Project creation, deletion  
 -Task creation, completion, deletion  
--Task title, date, status  
+-Task title, date, status
 
 ## Challenges
 
 -designing on paper before coding  
 -webpack  
--localStorage  
+-localStorage
 
 ## Diary
 
@@ -44,19 +45,19 @@ index.js.
 
 After many days of work, I can safely say that this approach was a grave mistake
 because of how much time it cost me when I needed to redo the project. I didn't
-need to start from scratch, but I had to go back and rework the logic through 
-the console before dismantling much of the UI and the UI building functions. 
+need to start from scratch, but I had to go back and rework the logic through
+the console before dismantling much of the UI and the UI building functions.
 
 Interestingly, my architecture was not perfectly compatible with localStorage.
 In my project, tasks do not know which project they belong to because they sit
 in their project's array. localStorage however, doesn't allow for the storage
-of objects. Rather, it allows for the storage of strings. This upset my apple 
-cart in a big way. 
+of objects. Rather, it allows for the storage of strings. This upset my apple
+cart in a big way.
 
 I was able to store the project names, tasks, and task values, but because
 each task was ignorant of their project, it was difficult to send them back to
-the right project. It was so difficult in fact, that I decided to give up this 
+the right project. It was so difficult in fact, that I decided to give up this
 feature of the project. I learned about localStorage, and in the future, I will
-design my data to work better with JSON.stringify. 
+design my data to work better with JSON.stringify.
 
 But for now, that is it. A rather well done project that is not perfect.
