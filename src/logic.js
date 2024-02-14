@@ -45,7 +45,7 @@ function todoApp() {
       if (projectList[i].getName() === unwantedProject) {
         projectList.splice(i, 1);
 
-        // TODO: remove the tasks belonging to the deleted project
+        // Remove the tasks associated with the unwanted project
         for (let j = taskList.length - 1; j >= 0; j--) {
           if (taskList[j].getParent() === unwantedProject) {
             taskList.splice(j, 1);
@@ -63,10 +63,6 @@ function todoApp() {
   };
 
   const selectProject = (wanted) => {
-    /*
-     * I chose a for loop rather than an Array method because the
-     * currentProject variable is an index of the projectList array
-     */
     for (let i = 0; i < projectList.length; i++) {
       if (wanted === projectList[i].getName()) {
         currentProject = i;
@@ -105,15 +101,13 @@ function todoApp() {
 
     // Add task to task list
     taskList.push(Task(newTask, getProjects()[getCurrentProject()].getName()));
-    displayTasks();
     storeLocally();
+    displayTasks();
   };
 
   const removeTask = (unwantedTask) => {
-    /*
-     * I chose to use a for loop instead of an Array method because
-     * the splice method is so useful and requires the array index
-     */
+    // Check if the task belongs to the right project
+    // because two projects could have a task with the same name
     for (let i = 0; i < taskList.length; i++) {
       if (
         taskList[i].getName() === unwantedTask &&
@@ -139,7 +133,8 @@ function todoApp() {
     const taskNames = taskList.map((task) => {
       const parentName = task.getParent();
       const taskName = task.getName();
-      const fullName = `${parentName}#$%${taskName}`;
+      const taskDate = task.getDate();
+      const fullName = `${parentName}#$%${taskName}#$%${taskDate}`;
       return fullName;
     });
 
@@ -168,18 +163,19 @@ function todoApp() {
     if (localTasks) {
       if (localTasks.length > 0) {
         localTasks.forEach((item) => {
-          const projectTask = item.split('#$%');
+          const projectTaskDate = item.split('#$%');
           // Select the project first
-          selectProject(projectTask[0]);
+          selectProject(projectTaskDate[0]);
           // Then add the task to the project
-          addTask(projectTask[1]);
+          addTask(projectTaskDate[1]);
+          const originalDate = new Date(projectTaskDate[2]);
+          taskList[taskList.length - 1].setDate(originalDate);
         });
       }
     }
   };
 
   const displayTasks = () => {
-    // TODO: display tasks from the current project only
     const tasksDiv = document.getElementById('tasks');
     const currentProjectName = projectList[getCurrentProject()].getName();
 
@@ -210,6 +206,12 @@ function todoApp() {
         taskDeleteBtn.addEventListener('click', () => {
           removeTask(task.getName());
         });
+
+        taskDateInput.addEventListener('change', () => {
+          const newDate = new Date(taskDateInput.valueAsDate);
+          task.setDate(newDate);
+          storeLocally();
+        })
 
         taskCheck.appendChild(taskCheckInput);
         taskDate.appendChild(taskDateInput);
@@ -264,9 +266,6 @@ function todoApp() {
   };
 
   const newProjectInput = () => {
-    // The input and buttons and everything should be built in page.js
-    // Here, all I should do i activate the buttons and make the divs
-    // either hidden or visible, then process the input. Tomorrow!
     const addProjectBtn = document.getElementById('addProjectBtn');
     const hiddenDiv = document.getElementById('hiddenProject');
     const projectConfirm = document.getElementById('projectConfirm');
@@ -293,9 +292,6 @@ function todoApp() {
   };
 
   const newTaskInput = () => {
-    // The input and buttons and everything should be built in page.js
-    // Here, all I should do i activate the buttons and make the divs
-    // either hidden or visible, then process the input. Tomorrow!
     const addTaskBtn = document.getElementById('addTaskBtn');
     const hiddenDiv = document.getElementById('hiddenTask');
     const taskConfirm = document.getElementById('taskConfirm');
@@ -337,7 +333,6 @@ function todoApp() {
 }
 
 function Project(string) {
-  // const id = 1;
   let name = string;
 
   const getName = () => {
@@ -352,7 +347,6 @@ function Project(string) {
 }
 
 function Task(taskName, projectName) {
-  // const id = 1;
   let parentProject = projectName;
   let name = taskName;
   let dueDate = new Date();
